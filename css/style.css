@@ -2350,7 +2350,7 @@ pre .javascript .function {
 .navbar-bottom {
   position: absolute;
   bottom: 0;
-  width: 80%;
+  width: 100%;
 }
 .logo {
   text-align: center;
