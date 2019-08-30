@@ -76,7 +76,9 @@
       
 
       
-        <h1 id="神经网络的反向误差传播"><a href="#神经网络的反向误差传播" class="headerlink" title="神经网络的反向误差传播"></a>神经网络的反向误差传播</h1><h2 id="一、一般的全连接神经网络结构"><a href="#一、一般的全连接神经网络结构" class="headerlink" title="一、一般的全连接神经网络结构"></a>一、一般的全连接神经网络结构</h2><h3 id="1-1-“层”的概念"><a href="#1-1-“层”的概念" class="headerlink" title="1.1 “层”的概念"></a>1.1 “层”的概念</h3><p>每个“层”在神经网络中被实现为一个类，作为神经网络中的功能单位，类中定义了此层接受的输入，运算和输出。比如，负责激活函数的层就是Sigmoid层，ReLU层等等，负责矩阵相乘的就是上次提到的Affine层。<br>以Affine层和ReLU层为例</p>
+        
+        
+          <h2 id="一、一般的全连接神经网络结构"><a href="#一、一般的全连接神经网络结构" class="headerlink" title="一、一般的全连接神经网络结构"></a>一、一般的全连接神经网络结构</h2><h3 id="1-1-“层”的概念"><a href="#1-1-“层”的概念" class="headerlink" title="1.1 “层”的概念"></a>1.1 “层”的概念</h3><p>每个“层”在神经网络中被实现为一个类，作为神经网络中的功能单位，类中定义了此层接受的输入，运算和输出。比如，负责激活函数的层就是Sigmoid层，ReLU层等等，负责矩阵相乘的就是上次提到的Affine层。<br>以Affine层和ReLU层为例</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Affine</span><br><span class="line">X = np.random.rand(2)  # 输入</span><br><span class="line">W = np.random.rand(2，3)  # 权重参数</span><br><span class="line">B = np.random.rand(3)  # 偏置</span><br><span class="line">Y = np.dot(X, W) + B    # 得到相乘结果</span><br><span class="line"></span><br><span class="line">class Relu:    </span><br><span class="line">    def __init__(self):        </span><br><span class="line">        self.mask = None        # mask这个变量在反向传播时很重要，稍后会提到</span><br><span class="line">    def forward(self, x):        # 正向传播</span><br><span class="line">        self.mask = (x &lt;= 0)        </span><br><span class="line">        out = x.copy()        </span><br><span class="line">        out[self.mask] = 0</span><br><span class="line">        return out</span><br><span class="line">    def backward(self, dout):        # 反向传播</span><br><span class="line">        dout[self.mask] = 0        </span><br><span class="line">        dx = dout</span><br><span class="line">        return dx</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://upload-images.jianshu.io/upload_images/14338022-476c9832f7313def.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1-1 神经网络示意图"></p>
@@ -142,10 +144,11 @@
 <h2 id="四、神经网络学习全貌"><a href="#四、神经网络学习全貌" class="headerlink" title="四、神经网络学习全貌"></a>四、神经网络学习全貌</h2><p>前提<br>神经网络中有合适的权重和偏置，调整权重和偏置以便拟合训练数据的过程称为学习<br>神经网络的学习分为下面4个步骤。<br>步骤1（mini-batch）<br>从训练数据中随机选择一部分数据。<br>步骤2（计算梯度）<br>计算损失函数关于各个权重参数的梯度。<br>步骤3（更新参数）<br>将权重参数沿梯度方向进行微小的更新。<br>步骤4（重复）<br>重复步骤1、步骤2、步骤3。<br>这次介绍的误差反向传播法会在步骤2中出现。上一次中，我们利用数值微分求得了这个梯度。数值微分虽然实现简单，但是计算要耗费较多的时间，而误差反向传播法可以快速高效地计算梯度。</p>
 <p><strong>还有一篇CNN噢，欢迎持续关注 :-D</strong></p>
 
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/Desirelife6/2019/08/30/神经网络的反向误差传播/" data-id="cjzy7ahle00044ktsrgphsufv"
+      <a data-url="https://github.com/Desirelife6/2019/08/30/神经网络的反向误差传播/" data-id="cjzyqqmlh0004aotsr0sqc608"
          class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/neural-network/">neural network</a></li></ul>
