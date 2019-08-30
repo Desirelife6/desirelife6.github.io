@@ -2342,12 +2342,18 @@ pre .javascript .function {
   content: '\f1a9';
 }
 .navbar .nav.nav-main .nav-item:nth-child(4) .nav-item-link::before {
+  content: '\f18c';
+}
+.navbar .nav.nav-main .nav-item:nth-child(5) .nav-item-link::before {
+  content: '\f153';
+}
+.navbar .nav.nav-main .nav-item:nth-child(6) .nav-item-link::before {
   content: '\f174';
 }
 .navbar-bottom {
   position: absolute;
   bottom: 0;
-  width: 100%;
+  width: 80%;
 }
 .logo {
   text-align: center;
