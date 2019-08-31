@@ -17,9 +17,9 @@
     <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
   </entry>
   <entry>
-    <title><![CDATA[tags]]></title>
-    <url>%2Fchild%2Ftags%2Findex.html</url>
-    <content type="text"></content>
+    <title><![CDATA[关于作者]]></title>
+    <url>%2Fchild%2Fabout%2Findex.html</url>
+    <content type="text"><![CDATA[我是谁我是一枚爱吃饭爱睡觉的可爱程序猿博客干嘛用我想干嘛干嘛鸭嘻嘻嘻其实可以来github给我star ： https://github.com/Desirelife6]]></content>
   </entry>
   <entry>
     <title><![CDATA[categories]]></title>
@@ -27,8 +27,8 @@
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[关于作者]]></title>
-    <url>%2Fchild%2Fabout%2Findex.html</url>
-    <content type="text"><![CDATA[我是谁我是一枚爱吃饭爱睡觉的可爱程序猿博客干嘛用我想干嘛干嘛鸭嘻嘻嘻其实可以来github给我star ： https://github.com/Desirelife6]]></content>
+    <title><![CDATA[tags]]></title>
+    <url>%2Fchild%2Ftags%2Findex.html</url>
+    <content type="text"></content>
   </entry>
 </search>
