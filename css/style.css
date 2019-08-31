@@ -870,7 +870,7 @@ body {
   height: 100%;
 }
 html {
-  font-size: 62.5%;
+  font-size: 70%;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -ms-overflow-style: scrollbar;
@@ -878,10 +878,13 @@ html {
 }
 body {
   position: relative;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   background-color: #fff;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-  font-size: 1.4rem;
-  line-height: 1.7;
+  font-size: 18px;
+  line-height: 1.8;
   color: #1e3e3f;
   padding: 0;
   margin: 0;
@@ -893,13 +896,13 @@ body ::selection {
   color: #e6e6e6;
 }
 a {
-  color: #127ea9;
+  color: #b9d3ee;
 }
 a:hover {
-  color: #1594c6;
+  color: #c0d7f0;
 }
 a:active {
-  color: #1178a1;
+  color: #a8c8ea;
 }
 a.disabled {
   color: #adb5bd;
@@ -1040,19 +1043,16 @@ img {
   margin-right: 0;
 }
 .content.on {
-  transform: translateX(-10rem);
+  transform: translateX(-70px);
 }
 .sidebar {
   position: fixed;
   z-index: 9;
   top: 0;
-  right: -10rem;
+  right: -70px;
   bottom: 0;
-  width: 10rem;
-  background-color: #f4f4f4;
-}
-.sidebar.on {
-  right: 0;
+  width: 70px;
+  opacity: 0.1;
 }
 .sidebar-specter {
   opacity: 0.1;
@@ -1063,14 +1063,12 @@ img {
 .navbar-toggle {
   position: absolute;
   top: 1.5rem;
-  right: 11.5rem;
+  right: 71.5rem;
   padding: 0.5rem 1rem;
   border: none;
   -webkit-border-radius: 0.4rem;
   -moz-border-radius: 0.4rem;
   border-radius: 0.4rem;
-  background-color: rgba(30,62,63,0.25);
-  color: #fff;
 }
 .navbar-toggle::before {
   content: '\f105';
@@ -1080,6 +1078,8 @@ img {
 .wrap,
 .outer {
   width: 100%;
+  height: 100%;
+  margin-bottom: 0;
   padding-right: 1.5rem;
   padding-left: 1.5rem;
   margin: auto;
@@ -1100,11 +1100,10 @@ img {
     margin-bottom: 6rem;
   }
   .content {
-    margin-right: 10rem;
+    margin-right: 70px;
   }
   .sidebar {
     right: 0;
-    background-color: #fff;
   }
   .navbar-toggle {
     display: none;
@@ -1112,6 +1111,7 @@ img {
   .wrap,
   .outer {
     width: 70rem;
+    height: 100%;
     padding-right: 0;
     padding-left: 0;
   }
@@ -1414,7 +1414,7 @@ img {
   color: #1e3e3f;
 }
 .article-footer {
-  margin-top: 3rem;
+  margin-bottom: 0rem;
 }
 .article-footer::before,
 .article-footer::after {
@@ -1863,6 +1863,7 @@ a.toc-link {
 .archives {
   margin-left: 6rem;
   border-left: 0.1rem #e6e6e6 dashed;
+  height: 100%;
   padding-left: 3rem;
 }
 .archives::before,
@@ -1890,7 +1891,15 @@ a.toc-link {
   font-size: 1.5rem;
 }
 .archive-article-footer {
-  margin-top: 1.5rem;
+  margin-top: -25px;
+  opacity: 0.5;
+  color: #5e5e5e;
+}
+.archive-article-footer::before,
+.archive-article-footer::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 .archive-article-date {
   position: relative;
@@ -1953,7 +1962,9 @@ a.toc-link {
   color: #e6e6e6;
 }
 .footer {
-  border-top: 0.1rem #e6e6e6 solid;
+  margin-bottom: 1px;
+  text-align: center;
+  opacity: 0.5;
   padding: 3rem 0;
 }
 .float-left {
@@ -2153,7 +2164,7 @@ pre .javascript .function {
 }
 .gitalk,
 .markdown-body {
-  font-size: 1.4rem !important;
+  font-size: 18px !important;
 }
 .gt-container .gt-avatar.gt-comment-avatar img {
   -webkit-border-radius: 50%;
@@ -2322,7 +2333,7 @@ pre .javascript .function {
   cursor: pointer;
 }
 .navbar .nav .nav-item-link:hover {
-  color: #1594c6;
+  color: #c0d7f0;
 }
 .navbar .nav.nav-main .nav-item-link::before,
 .navbar .nav.nav-main .nav-item-link i.fe {
@@ -2375,7 +2386,7 @@ pre .javascript .function {
   animation: rocket 0.3s ease-in-out;
 }
 @-moz-keyframes rocket {
-  0% {
+  10% {
     transform: translateY(0);
     opacity: 1;
   }
@@ -2393,7 +2404,7 @@ pre .javascript .function {
   }
 }
 @-webkit-keyframes rocket {
-  0% {
+  10% {
     transform: translateY(0);
     opacity: 1;
   }
@@ -2411,7 +2422,7 @@ pre .javascript .function {
   }
 }
 @-o-keyframes rocket {
-  0% {
+  10% {
     transform: translateY(0);
     opacity: 1;
   }
@@ -2429,7 +2440,7 @@ pre .javascript .function {
   }
 }
 @keyframes rocket {
-  0% {
+  10% {
     transform: translateY(0);
     opacity: 1;
   }
