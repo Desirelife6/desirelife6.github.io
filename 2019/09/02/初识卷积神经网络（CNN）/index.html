@@ -120,7 +120,7 @@
 
 
   <meta name="description" content="一、基础结构CNN和之 前介绍的神经网络一样，可以像乐高积木一样通过组装层来构建。不过， CNN中新出现了卷积层（Convolution层）和池化层（Pooling层）。此外，各层中传递的数据是有形状的数据（比如，3维数据）靠近输出的层中使用了之前 的“ Affine - ReLU”组合。此外，最后的输出层中使用了之前的“Affine - Softmax”组合。这些都是一般的CNN中比较常见的结构">
-<meta name="keywords" content="neural network,CNN">
+<meta name="keywords" content="CNN,neural network">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初始卷积神经网络（CNN）">
 <meta property="og:url" content="https://github.com/Desirelife6/child/2019/09/02/初识卷积神经网络（CNN）/index.html">
@@ -141,7 +141,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14338022-a955bb70a401e05b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14338022-c96a994eddf32808.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14338022-8349cb5b6a35b9ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-09-02T03:35:21.979Z">
+<meta property="og:updated_time" content="2019-09-02T03:39:38.096Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初始卷积神经网络（CNN）">
 <meta name="twitter:description" content="一、基础结构CNN和之 前介绍的神经网络一样，可以像乐高积木一样通过组装层来构建。不过， CNN中新出现了卷积层（Convolution层）和池化层（Pooling层）。此外，各层中传递的数据是有形状的数据（比如，3维数据）靠近输出的层中使用了之前 的“ Affine - ReLU”组合。此外，最后的输出层中使用了之前的“Affine - Softmax”组合。这些都是一般的CNN中比较常见的结构">
@@ -471,7 +471,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-02 11:35:21" itemprop="dateModified" datetime="2019-09-02T11:35:21+08:00">2019-09-02</time>
+                <time title="修改时间：2019-09-02 11:39:38" itemprop="dateModified" datetime="2019-09-02T11:39:38+08:00">2019-09-02</time>
               
             
           </span>
@@ -552,7 +552,7 @@
 <p>在最后我将给出这些问题的答案。</p>
 <h4 id="2-2-5-多通道图的卷积运算"><a href="#2-2-5-多通道图的卷积运算" class="headerlink" title="2.2.5 多通道图的卷积运算"></a>2.2.5 多通道图的卷积运算</h4><p>这里先介绍单通道图和多通道图的概念<br>（一）：单通道图<br>俗称灰度图，每个像素点只能有有一个值表示颜色，它的像素值在0到255之间，0是黑色，255是白色，中间值是一些不同等级的灰色。（也有3通道的灰度图，3通道灰度图只有一个通道有值，其他两个通道的值都是零）。<br>（二）:三通道图<br>每个像素点都有3个值表示 ，所以就是3通道。也有4通道的图。例如RGB图片即为三通道图片，RGB色彩模式是工业界的一种颜色标准，是通过对红(R)、绿(G)、蓝(B)三个颜色通道的变化以及它们相互之间的叠加来得到各式各样的颜色的，RGB即是代表红、绿、蓝三个通道的颜色，这个标准几乎包括了人类视力所能感知的所有颜色，是目前运用最广的颜色系统之一。总之，每一个点由三个值表示。</p>
 <p>之前的卷积运算的例子都是以有高、长方向的2维形状的单通道图为对象的。<br>但是， 图像是3维数据，除了高、长方向之外，还需要处理通道方向。这里，我们按照与之前相同的顺序，看一下对加上了通道方向的3维数据进行卷积运算的例子。这里以3通道的数据为例， 展示了卷积运算的结果。和2维数据时相比，可以发现纵深方向（通道方向）上特征图增加了。通道方向上有多个特征图时，会按通道进行输入数据和滤波器的卷积运算，并将结果相加，从而得到输出。<br><img src="https://upload-images.jianshu.io/upload_images/14338022-84df90c4dbb336eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="对三维数据进行卷积运算"><br>需要注意的是，在3维数据的卷积运算中，输入数据和滤波器的通道数要设为相同的值。从上图可知，每个卷积核输出一张特征图，而多个卷积核输出的特征图汇集在一起，传递给下一层，这就是CNN的处理流。<br>最后再看看一看卷积运算中的处理流是什么亚子。<br><img src="https://upload-images.jianshu.io/upload_images/14338022-042342718ce8a343.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="基于多卷积核的卷积运算"></p>
-<h4 id="2-3-池化"><a href="#2-3-池化" class="headerlink" title="2.3 池化"></a>2.3 池化</h4><p>讲了这么久的卷积，终于来到了池化（pooling）层<br>池化是缩小高、长方向上的空间的运算。比如，如图所示，进行将 2×2的区域集约成1个元素的处理，缩小空间大小。一般来说，池化的窗口大小会 和步幅设定成相同的值。<br><img src="https://upload-images.jianshu.io/upload_images/14338022-1488813e8426f827.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Max池化"></p>
+<h2 id="三、-池化"><a href="#三、-池化" class="headerlink" title="三、 池化"></a>三、 池化</h2><p>讲了这么久的卷积，终于来到了池化（pooling）层<br>池化是缩小高、长方向上的空间的运算。比如，如图所示，进行将 2×2的区域集约成1个元素的处理，缩小空间大小。一般来说，池化的窗口大小会 和步幅设定成相同的值。<br><img src="https://upload-images.jianshu.io/upload_images/14338022-1488813e8426f827.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Max池化"></p>
 <blockquote>
 <p>除了MaxPooling之外，还有AveragePooling等。相对于MaxPooling是从目标区域中取出最大值，AveragePooling则是计算目标区域的平均值。 在图像识别领域，主要使用MaxPooling。</p>
 </blockquote>
@@ -560,9 +560,9 @@
 <p>其实从上文分析卷积核为什么有效的原因来看，每一个卷积核可以看做一个特征提取器，不同的卷积核负责提取不同的特征，我们例子中设计的第一个卷积核能够提取出“垂直”方向的特征，第二个卷积核能够提取出“水平”方向的特征，那么我们对其进行MaxPooling操作后，提取出的是真正能够识别特征的数值，其余被舍弃的数值，对于我提取特定的特征并没有特别大的帮助。<br>在进行后续计算时，就减小了特征图的尺寸，从而减少参数，达到减小计算量，缺不损失效果的情况。</p>
 <p>这也意味着MaxPooling对微小的位置变化具有健壮性，输入数据发生微小偏差时，池化仍会返回相同的结果,池化会吸收输入数据的偏差（根据数据的不同，结果有可能不一致）。</p>
 <p>不过并不是所有情况MaxPooling的效果都很好，有时候有些周边信息也会对某个特定特征的识别产生一定效果，那么这个时候舍弃这部分“不重要”的信息，就不划算了。所以还要具体情况具体分析，如果加了Max Pooling后效果反而变差了，不如把卷积后不加MaxPooling的结果与卷积后加了MaxPooling的结果输出对比一下，看看MaxPooling是否对卷积核提取特征起了反效果。</p>
-<h4 id="2-4-Flatten层-amp-Fully-Connected-Layer"><a href="#2-4-Flatten层-amp-Fully-Connected-Layer" class="headerlink" title="2.4 Flatten层 &amp; Fully Connected Layer"></a>2.4 Flatten层 &amp; Fully Connected Layer</h4><p>　　到这一步，其实我们的一个完整的“卷积部分”就算完成了，如果想要叠加层数，一般也是叠加“Conv-MaxPooing”,通过不断的设计卷积核的尺寸，数量，提取更多的特征，最后识别不同类别的物体。做完MaxPooling后，我们就会把这些数据“拍平”，丢到Flatten层，然后把Flatten层的output放到full connected Layer里，采用softmax对其进行分类。<br><img src="https://upload-images.jianshu.io/upload_images/14338022-b5889eddf2a88735.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Flatten过程"></p>
-<h4 id="2-5-CNN的可视化"><a href="#2-5-CNN的可视化" class="headerlink" title="2.5 CNN的可视化"></a>2.5 CNN的可视化</h4><p>学习前的滤波器是随机进行初始化的，所以在黑白的浓淡上没有规律可循，但学习后的滤波器变成了有规律的图像。我们发现，通过学习，滤波器被更新成了有规律的滤波器，比如从白到黑渐变的滤波器、含有块状区域（称为blob）的滤波器等。<br><img src="https://upload-images.jianshu.io/upload_images/14338022-b37d408f9fd778c6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="学习前后的权重参数（滤波器）"><br>如果要问右边的有规律的滤波器在“观察”什么，答案就是它在观察边缘（颜色变化的分界线）和斑块（局部的块状区域）等。比如，左半部分为白色、右半部分为黑色的滤波器的情况下，如图所示，会对垂直方向上的边缘有响应。<br><img src="https://upload-images.jianshu.io/upload_images/14338022-a955bb70a401e05b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="对水平边缘和垂直边缘有响应的滤波器"></p>
-<h3 id="问题小结"><a href="#问题小结" class="headerlink" title="问题小结"></a>问题小结</h3><p>最后是上面给大家留下的问题<br>1.卷积核的尺寸必须为正方形吗？可以为长方形吗？如果是长方形应该怎么计算？</p>
+<h4 id="3-1-Flatten层-amp-Fully-Connected-Layer"><a href="#3-1-Flatten层-amp-Fully-Connected-Layer" class="headerlink" title="3.1 Flatten层 &amp; Fully Connected Layer"></a>3.1 Flatten层 &amp; Fully Connected Layer</h4><p>　　到这一步，其实我们的一个完整的“卷积部分”就算完成了，如果想要叠加层数，一般也是叠加“Conv-MaxPooing”,通过不断的设计卷积核的尺寸，数量，提取更多的特征，最后识别不同类别的物体。做完MaxPooling后，我们就会把这些数据“拍平”，丢到Flatten层，然后把Flatten层的output放到full connected Layer里，采用softmax对其进行分类。<br><img src="https://upload-images.jianshu.io/upload_images/14338022-b5889eddf2a88735.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Flatten过程"></p>
+<h2 id="四、-CNN的可视化"><a href="#四、-CNN的可视化" class="headerlink" title="四、 CNN的可视化"></a>四、 CNN的可视化</h2><p>学习前的滤波器是随机进行初始化的，所以在黑白的浓淡上没有规律可循，但学习后的滤波器变成了有规律的图像。我们发现，通过学习，滤波器被更新成了有规律的滤波器，比如从白到黑渐变的滤波器、含有块状区域（称为blob）的滤波器等。<br><img src="https://upload-images.jianshu.io/upload_images/14338022-b37d408f9fd778c6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="学习前后的权重参数（滤波器）"><br>如果要问右边的有规律的滤波器在“观察”什么，答案就是它在观察边缘（颜色变化的分界线）和斑块（局部的块状区域）等。比如，左半部分为白色、右半部分为黑色的滤波器的情况下，如图所示，会对垂直方向上的边缘有响应。<br><img src="https://upload-images.jianshu.io/upload_images/14338022-a955bb70a401e05b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="对水平边缘和垂直边缘有响应的滤波器"></p>
+<h2 id="四、问题小结"><a href="#四、问题小结" class="headerlink" title="四、问题小结"></a>四、问题小结</h2><p>最后是上面给大家留下的问题<br>1.卷积核的尺寸必须为正方形吗？可以为长方形吗？如果是长方形应该怎么计算？</p>
 <p>2.卷积核的个数如何确定？每一层的卷积核的个数都是相同的吗？ </p>
 <p>3.步长的向右和向下移动的幅度必须是一样的吗？</p>
 <p>下面的想法，可以作为参考：</p>
@@ -592,9 +592,9 @@
       
         <div class="post-tags">
           
-            <a href="/desirelife6.github.io/tags/neural-network/" rel="tag"><i class="fa fa-tag"></i>neural network</a>
-          
             <a href="/desirelife6.github.io/tags/CNN/" rel="tag"><i class="fa fa-tag"></i>CNN</a>
+          
+            <a href="/desirelife6.github.io/tags/neural-network/" rel="tag"><i class="fa fa-tag"></i>neural network</a>
           
         </div>
       
@@ -785,7 +785,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、基础结构"><span class="nav-number">1.</span> <span class="nav-text">一、基础结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、卷积层"><span class="nav-number">2.</span> <span class="nav-text">二、卷积层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-卷积层的优势"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 卷积层的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-卷积运算（图像处理中的滤波器运算）"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 卷积运算（图像处理中的滤波器运算）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-卷积运算基本过程"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 卷积运算基本过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-填充"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 填充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-步幅"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.2.3 步幅</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-填充，步幅和输出结果的瓜系"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.2.4 填充，步幅和输出结果的瓜系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-5-多通道图的卷积运算"><span class="nav-number">2.2.5.</span> <span class="nav-text">2.2.5 多通道图的卷积运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-池化"><span class="nav-number">2.2.6.</span> <span class="nav-text">2.3 池化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-Flatten层-amp-Fully-Connected-Layer"><span class="nav-number">2.2.7.</span> <span class="nav-text">2.4 Flatten层 &amp; Fully Connected Layer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-CNN的可视化"><span class="nav-number">2.2.8.</span> <span class="nav-text">2.5 CNN的可视化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题小结"><span class="nav-number">2.3.</span> <span class="nav-text">问题小结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、基础结构"><span class="nav-number">1.</span> <span class="nav-text">一、基础结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、卷积层"><span class="nav-number">2.</span> <span class="nav-text">二、卷积层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-卷积层的优势"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 卷积层的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-卷积运算（图像处理中的滤波器运算）"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 卷积运算（图像处理中的滤波器运算）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-卷积运算基本过程"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 卷积运算基本过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-填充"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 填充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-步幅"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.2.3 步幅</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-填充，步幅和输出结果的瓜系"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.2.4 填充，步幅和输出结果的瓜系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-5-多通道图的卷积运算"><span class="nav-number">2.2.5.</span> <span class="nav-text">2.2.5 多通道图的卷积运算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、-池化"><span class="nav-number">3.</span> <span class="nav-text">三、 池化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-Flatten层-amp-Fully-Connected-Layer"><span class="nav-number">3.0.1.</span> <span class="nav-text">3.1 Flatten层 &amp; Fully Connected Layer</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#四、-CNN的可视化"><span class="nav-number">4.</span> <span class="nav-text">四、 CNN的可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、问题小结"><span class="nav-number">5.</span> <span class="nav-text">四、问题小结</span></a></li></div>
             
 
           </div>
