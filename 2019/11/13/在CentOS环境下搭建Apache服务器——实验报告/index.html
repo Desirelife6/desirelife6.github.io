@@ -119,24 +119,62 @@
 
 
 
-  <meta name="description" content="一枚爱生活爱吃饭的可爱程序猿">
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="https://github.com/Desirelife6/child/categories/index.html">
+  <meta name="description" content="CentOS搭建Apache服务器和ftp服务器[TOC] 1. Apache安装使用su root得到权限后使用yum install httpd安装Apache服务器  使用rpm -qa | grep httpd进行验证，可见已经安装完成  2. 检验网络的连通性由下图可知网络连通性良好  3. 启动apache服务器，然后用客户机端访问默认界面和个人界面3.1 启动apache服务，访问默">
+<meta name="keywords" content="-Computer Networking">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS搭建Apache服务器和ftp服务器">
+<meta property="og:url" content="https://github.com/Desirelife6/child/2019/11/13/在CentOS环境下搭建Apache服务器——实验报告/index.html">
 <meta property="og:site_name" content="Desirelife&#39;s blog">
-<meta property="og:description" content="一枚爱生活爱吃饭的可爱程序猿">
+<meta property="og:description" content="CentOS搭建Apache服务器和ftp服务器[TOC] 1. Apache安装使用su root得到权限后使用yum install httpd安装Apache服务器  使用rpm -qa | grep httpd进行验证，可见已经安装完成  2. 检验网络的连通性由下图可知网络连通性良好  3. 启动apache服务器，然后用客户机端访问默认界面和个人界面3.1 启动apache服务，访问默">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-30T14:19:03.037Z">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573479969811.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573480086501.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573480277479.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573481373755.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573481511844.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573481942864.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573482110924.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573482843667.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573482820136.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573482995271.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573483295796.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573483733357.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573485971048.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494006717.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494129207.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494427165.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573493023937.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573493180927.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573493190258.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494250617.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494471077.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494485530.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573631747689.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573631823142.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573632827812.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573632931871.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573632462704.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573632515004.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573632661999.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573631868316.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634183901.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634258672.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634470056.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634548706.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634839914.png">
+<meta property="og:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634877559.png">
+<meta property="og:updated_time" content="2019-11-13T09:43:23.992Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
-<meta name="twitter:description" content="一枚爱生活爱吃饭的可爱程序猿">
+<meta name="twitter:title" content="CentOS搭建Apache服务器和ftp服务器">
+<meta name="twitter:description" content="CentOS搭建Apache服务器和ftp服务器[TOC] 1. Apache安装使用su root得到权限后使用yum install httpd安装Apache服务器  使用rpm -qa | grep httpd进行验证，可见已经安装完成  2. 检验网络的连通性由下图可知网络连通性良好  3. 启动apache服务器，然后用客户机端访问默认界面和个人界面3.1 启动apache服务，访问默">
+<meta name="twitter:image" content="c:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573479969811.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://github.com/Desirelife6/child/categories/">
+  <link rel="canonical" href="https://github.com/Desirelife6/child/2019/11/13/在CentOS环境下搭建Apache服务器——实验报告/">
 
 
 
@@ -146,7 +184,7 @@
   };
 </script>
 
-  <title>categories | Desirelife's blog</title>
+  <title>CentOS搭建Apache服务器和ftp服务器 | Desirelife's blog</title>
   
 
 
@@ -271,7 +309,7 @@
         
         
           
-          <li class="menu-item menu-item-categories menu-item-active">
+          <li class="menu-item menu-item-categories">
 
     
     
@@ -375,94 +413,286 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/Desirelife6/child/desirelife6.github.io/2019/11/13/在CentOS环境下搭建Apache服务器——实验报告/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Desirelife">
+      <meta itemprop="description" content="一枚爱生活爱吃饭的可爱程序猿">
+      <meta itemprop="image" content="/desirelife6.github.io/images/my_avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Desirelife's blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">categories
-
-</h1>
-
-<div class="post-meta">
-  
-  
-
-
-
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
+          <h1 class="post-title" itemprop="name headline">CentOS搭建Apache服务器和ftp服务器
+
               
-              
-                
-                  
-                
-              
-                
-                  
-                
-              
-                
-                  
-                
-              
-              目前共计 3 个分类
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/desirelife6.github.io/categories/Android/">Android</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/desirelife6.github.io/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/desirelife6.github.io/categories/neural-network/">neural network</a><span class="category-list-count">2</span></li></ul>
-            </div>
-          </div>
+            
+          </h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-13 17:37:41" itemprop="dateCreated datePublished" datetime="2019-11-13T17:37:41+08:00">2019-11-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-13 17:43:23" itemprop="dateModified" datetime="2019-11-13T17:43:23+08:00">2019-11-13</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/desirelife6.github.io/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/desirelife6.github.io/2019/11/13/在CentOS环境下搭建Apache服务器——实验报告/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/desirelife6.github.io/2019/11/13/在CentOS环境下搭建Apache服务器——实验报告/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h2 id="CentOS搭建Apache服务器和ftp服务器"><a href="#CentOS搭建Apache服务器和ftp服务器" class="headerlink" title="CentOS搭建Apache服务器和ftp服务器"></a>CentOS搭建Apache服务器和ftp服务器</h2><p>[TOC]</p>
+<h3 id="1-Apache安装"><a href="#1-Apache安装" class="headerlink" title="1. Apache安装"></a>1. Apache安装</h3><p>使用<strong><code>su root</code></strong>得到权限后使用<strong><code>yum install httpd</code></strong>安装Apache服务器</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573479969811.png" alt="1573479969811"></p>
+<p>使用<strong><code>rpm -qa | grep httpd</code></strong>进行验证，可见已经安装完成</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573480086501.png" alt="1573480086501"></p>
+<h3 id="2-检验网络的连通性"><a href="#2-检验网络的连通性" class="headerlink" title="2. 检验网络的连通性"></a>2. 检验网络的连通性</h3><p>由下图可知网络连通性良好</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573480277479.png" alt="1573480277479"></p>
+<h3 id="3-启动apache服务器，然后用客户机端访问默认界面和个人界面"><a href="#3-启动apache服务器，然后用客户机端访问默认界面和个人界面" class="headerlink" title="3. 启动apache服务器，然后用客户机端访问默认界面和个人界面"></a>3. 启动apache服务器，然后用客户机端访问默认界面和个人界面</h3><h4 id="3-1-启动apache服务，访问默认界面"><a href="#3-1-启动apache服务，访问默认界面" class="headerlink" title="3.1 启动apache服务，访问默认界面"></a>3.1 启动apache服务，访问默认界面</h4><p>使用<strong><code>systemctl start httpd</code></strong>启动apache服务并使用<strong><code>systemctl stop firewalld</code></strong>关闭防火墙</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573481373755.png" alt="1573481373755"></p>
+<p>使用浏览器访问，访问正常</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573481511844.png" alt="1573481511844"></p>
+<p>进入<strong><code>var/www/html</code></strong>文件夹下新建<strong><code>index.html</code></strong>，修改默认主页后再次访问</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573481942864.png" alt="1573481942864"></p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573482110924.png" alt="1573482110924"></p>
+<h4 id="3-2-创建用户个人界面"><a href="#3-2-创建用户个人界面" class="headerlink" title="3.2 创建用户个人界面"></a>3.2 创建用户个人界面</h4><p>在用户<strong><code>desirelife</code></strong>目录下新建<strong><code>public_html</code></strong>目录，并修改其权限</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573482843667.png" alt="1573482843667"></p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573482820136.png" alt="1573482820136"></p>
+<p>写入个人主页的<strong><code>index.html</code></strong>，内容为一行字： “This is Desirelife’s web”</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573482995271.png" alt="1573482995271"></p>
+<p>得到root权限并修改<strong><code>/etc/httpd/conf.d/userdir</code></strong>文件，允许用户架设个人web站点。<img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573483295796.png" alt="1573483295796"></p>
+<p>SELLinux模式有时会阻碍客户机的访问，因此我们使用setenforce命令把SELLinux设置为允许模式，getenforce命令查看设置后的SELLinux模式。</p>
+<p>然后重启服务，在客户机端进行访问。</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573483733357.png" alt="1573483733357"></p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573485971048.png" alt="1573485971048"></p>
+<h3 id="4-配置虚拟主机"><a href="#4-配置虚拟主机" class="headerlink" title="4. 配置虚拟主机"></a>4. 配置虚拟主机</h3><ul>
+<li><p>分别给网卡配置两个ip地址23.17.235和172.23.17.233（这里的IP地址需要和虚拟机上的IP地址网段保持一致）</p>
+<p>虚拟机上的ip地址如图1所示，为<strong>192.168.159.128</strong></p>
+</li>
+</ul>
+<ul>
+<li><p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494006717.png" alt="1573494006717"></p>
+</li>
+<li><p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494129207.png" alt="1573494129207"></p>
+</li>
+<li></li>
+<li><p>分别创建<strong><code>“/var/www/ip4”</code></strong>和<strong><code>“/var/www/ip5”</code></strong>两个主目录和默认首页文件。</p>
+</li>
+</ul>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494427165.png" alt="1573494427165"></p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573493023937.png" alt="1573493023937"></p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573493180927.png" alt="1573493180927"><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573493190258.png" alt="1573493190258"></p>
+<ul>
+<li>在<strong><code>/etc/httpd/conf/httpd.conf</code></strong>文件中，设置基于IP地址的虚拟主机，配置内容如下</li>
+</ul>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494250617.png" alt="1573494250617"></p>
+<ul>
+<li><p>重启服务后再在客户端访问，可在客户端输入<strong><code>http://IP</code></strong>形式的URL地址访问虚拟主机，则可以访问对应的虚拟主机。</p>
+<p> <img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494471077.png" alt="1573494471077"><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573494485530.png" alt="1573494485530"></p>
+</li>
+</ul>
+<h3 id="5-vsftpd的安装和配置"><a href="#5-vsftpd的安装和配置" class="headerlink" title="5. vsftpd的安装和配置"></a>5. vsftpd的安装和配置</h3><h4 id="5-1-安装ftp服务"><a href="#5-1-安装ftp服务" class="headerlink" title="5.1 安装ftp服务"></a>5.1 安装ftp服务</h4><p>使用yum软件管理包安装ftp服务</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573631747689.png" alt="1573631747689"></p>
+<p>查询已安装的软件过滤出vsftpd，可知安装成功</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573631823142.png" alt="1573631823142"></p>
+<h4 id="5-2-启动ftp服务"><a href="#5-2-启动ftp服务" class="headerlink" title="5.2 启动ftp服务"></a>5.2 启动ftp服务</h4><p>启动以后直接用localhost登录，发现与服务器的连接断开，如图所示</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573632827812.png" alt="1573632827812"></p>
+<p>这是因为VSFTPD是一个FTP服务器程序，SELinux是CentOS的防火墙组件， vsftpd 默认被 SELinux 拦截。可以通过在linux中设置ftp允许访问解决这个问题。如图所示，将<strong><code>ftpd_full_access</code></strong>设置为<strong><code>on</code></strong></p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573632931871.png" alt="1573632931871"></p>
+<p>配置文件允许匿名访问等</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573632462704.png" alt="1573632462704"></p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573632515004.png" alt="1573632515004"></p>
+<p>启动服务，此时可以通过ip地址访问服务器，查询ftp服务的状态，可见已经处于<strong><code>active</code></strong>状态</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573632661999.png" alt="1573632661999"></p>
+<p>查询21端口</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573631868316.png" alt="1573631868316"></p>
+<p>在本地使用<strong>anonymous</strong>匿名登陆进行验证，保证返回220表示服务正常，230表示登陆成功</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634183901.png" alt="1573634183901"></p>
+<p>使用客户机，用<strong>ip</strong>进行访问，可以看到系统预设的pub文件夹，表示访问正常</p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634258672.png" alt="1573634258672"></p>
+<h4 id="5-3-创建ftp用户"><a href="#5-3-创建ftp用户" class="headerlink" title="5.3 创建ftp用户"></a>5.3 创建ftp用户</h4><ul>
+<li>在centos添加用户<strong>ftpuser</strong>，并设置密码（这里由于密码设置过于简单被迫设置了好几次XD），限制该用户的登陆</li>
+</ul>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634470056.png" alt="1573634470056"></p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634548706.png" alt="1573634548706"></p>
+<ul>
+<li>创建用户目录并指定特定用户的登陆目录</li>
+</ul>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634839914.png" alt="1573634839914"></p>
+<p><img src="C:%5CUsers%5CDesirelife%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1573634877559.png" alt="1573634877559"></p>
+
       
     </div>
-    
-
-
 
     
+
     
     
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/desirelife6.github.io/tags/Computer-Networking/" rel="tag"><i class="fa fa-tag"></i>-Computer Networking</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/desirelife6.github.io/2019/11/03/2019-11-03-Java——注解/" rel="next" title="Java——注解">
+                <i class="fa fa-chevron-left"></i> Java——注解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
   </div>
 
 
@@ -496,8 +726,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -607,6 +846,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CentOS搭建Apache服务器和ftp服务器"><span class="nav-number">1.</span> <span class="nav-text">CentOS搭建Apache服务器和ftp服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Apache安装"><span class="nav-number">1.1.</span> <span class="nav-text">1. Apache安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-检验网络的连通性"><span class="nav-number">1.2.</span> <span class="nav-text">2. 检验网络的连通性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-启动apache服务器，然后用客户机端访问默认界面和个人界面"><span class="nav-number">1.3.</span> <span class="nav-text">3. 启动apache服务器，然后用客户机端访问默认界面和个人界面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-启动apache服务，访问默认界面"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 启动apache服务，访问默认界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-创建用户个人界面"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 创建用户个人界面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-配置虚拟主机"><span class="nav-number">1.4.</span> <span class="nav-text">4. 配置虚拟主机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-vsftpd的安装和配置"><span class="nav-number">1.5.</span> <span class="nav-text">5. vsftpd的安装和配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-安装ftp服务"><span class="nav-number">1.5.1.</span> <span class="nav-text">5.1 安装ftp服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-启动ftp服务"><span class="nav-number">1.5.2.</span> <span class="nav-text">5.2 启动ftp服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-创建ftp用户"><span class="nav-number">1.5.3.</span> <span class="nav-text">5.3 创建ftp用户</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
