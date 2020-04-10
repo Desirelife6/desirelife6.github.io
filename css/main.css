@@ -1929,7 +1929,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #e396e5;
+  background: #ffff5d;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3258,4 +3258,7 @@ ul.breadcrumb li+li:last-child {
 }
 .MathJax {
   outline: 0;
+}
+.post-toc .nav .nav-child {
+  display: block;
 }
