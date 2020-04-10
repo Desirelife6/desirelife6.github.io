@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://twifor.github.io"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+
+
+  
+  
+    
+    
+  <script src="/desirelife6.github.io/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/desirelife6.github.io/lib/pace/pace-theme-bounce.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/desirelife6.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/desirelife6.github.io/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/desirelife6.github.io/images/twt.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/desirelife6.github.io/images/twt.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/desirelife6.github.io/images/twt.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/desirelife6.github.io/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/desirelife6.github.io/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Android消息机制Android的消息机制主要是指的Handler的运行机制以及Handler所附带的MessageQueue和Looper的工作过程，这三者实际上是一个整体。 从开发的角度来看，Handler是消息机制的上层接口，通过它我们可以轻松的将一个任务切换到它所在的线程中去执行。以消息传递为例，在一个线程创建Handler，另外一个线程通过持有该Handler的引用调用sendMes">
+<meta name="keywords" content="Android知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android消息机制">
+<meta property="og:url" content="https://github.com/Desirelife6/child/2020/04/10/Android消息机制/index.html">
+<meta property="og:site_name" content="Desirelife&#39;s blog">
+<meta property="og:description" content="Android消息机制Android的消息机制主要是指的Handler的运行机制以及Handler所附带的MessageQueue和Looper的工作过程，这三者实际上是一个整体。 从开发的角度来看，Handler是消息机制的上层接口，通过它我们可以轻松的将一个任务切换到它所在的线程中去执行。以消息传递为例，在一个线程创建Handler，另外一个线程通过持有该Handler的引用调用sendMes">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/Desirelife6/child/2020/04/10/Android消息机制/images/%E6%88%AA%E5%B1%8F2020-03-2223.43.49.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2223.43.49.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2220.37.27.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2220.50.07.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2220.50.17.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2223.49.29.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2222.54.22.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2222.58.00.png">
+<meta property="og:updated_time" content="2020-04-10T10:03:38.018Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android消息机制">
+<meta name="twitter:description" content="Android消息机制Android的消息机制主要是指的Handler的运行机制以及Handler所附带的MessageQueue和Looper的工作过程，这三者实际上是一个整体。 从开发的角度来看，Handler是消息机制的上层接口，通过它我们可以轻松的将一个任务切换到它所在的线程中去执行。以消息传递为例，在一个线程创建Handler，另外一个线程通过持有该Handler的引用调用sendMes">
+<meta name="twitter:image" content="https://github.com/Desirelife6/child/2020/04/10/Android消息机制/images/%E6%88%AA%E5%B1%8F2020-03-2223.43.49.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://github.com/Desirelife6/child/2020/04/10/Android消息机制/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Android消息机制 | Desirelife's blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/Desirelife6" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/desirelife6.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Desirelife's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">一个爱生活爱吃饭的积极的人</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/desirelife6.github.io/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/desirelife6.github.io/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/desirelife6.github.io/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/desirelife6.github.io/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/desirelife6.github.io/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/Desirelife6/child/desirelife6.github.io/2020/04/10/Android消息机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Desirelife">
+      <meta itemprop="description" content="一个爱生活爱吃饭的积极的人">
+      <meta itemprop="image" content="/desirelife6.github.io/images/my_avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Desirelife's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android消息机制
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-10 17:38:11" itemprop="dateCreated datePublished" datetime="2020-04-10T17:38:11+08:00">2020-04-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-10 18:03:38" itemprop="dateModified" datetime="2020-04-10T18:03:38+08:00">2020-04-10</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/desirelife6.github.io/categories/Android开发/" itemprop="url" rel="index"><span itemprop="name">Android开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/desirelife6.github.io/2020/04/10/Android消息机制/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/desirelife6.github.io/2020/04/10/Android消息机制/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Android消息机制"><a href="#Android消息机制" class="headerlink" title="Android消息机制"></a>Android消息机制</h1><p>Android的消息机制主要是指的<code>Handler</code>的运行机制以及<code>Handler</code>所附带的<code>MessageQueue</code>和<code>Looper</code>的工作过程，这三者实际上是一个整体。</p>
+<p>从开发的角度来看，Handler是消息机制的上层接口，通过它我们可以轻松的将一个任务切换到它所在的线程中去执行。以消息传递为例，在一个线程创建Handler，另外一个线程通过持有该Handler的引用调用sendMessage实现消息在线程之间的传递。MessageQueue的中文翻译是消息队列，内部采用单链表的数据结构来存储消息列表。Looper的中文翻译是循环，这里可以理解为消息循环。由于MessageQueue只是一个消息的存储单元，它不能去处理消息，而Looper就填补了这个功能，<strong>Looper会以无限循环的形式去查找是否有新消息，如果有的话就处理消息，否则就一直等待着。</strong>Looper中还有一个特殊的概念：<code>ThreadLocal</code>，当我们调用<code>Looper.prepare()</code>方法创建Looper时使用到它。在Handler内部就是通过ThreadLocal来获取每个线程的Looper的。</p>
+<p>Handler的内部实现主要涉及到如下几个类: Thread、MessageQueue和Looper。这几类之间的关系可以用如下的图来简单说明：</p>
+<p><img src="images/%E6%88%AA%E5%B1%8F2020-03-2223.43.49.png" alt="截屏2020-03-2223.43.49"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2223.43.49.png" alt="截屏2020-03-2223.43.49"></p>
+<p>Thread是最基础的，Looper和MessageQueue都构建在Thread之上，Handler又构建在Looper和MessageQueue之上，我们通过Handler间接地与下面这几个相对底层一点的类打交道。</p>
+<p>下面我们来先分别介绍<code>ThreadLocal</code>，<code>MessageQueue</code>，<code>Looper</code>, 和<code>Handler</code>的工作机制，再将它们的工作流程进行一个大致的串讲。</p>
+<h2 id="1-ThreadLocal"><a href="#1-ThreadLocal" class="headerlink" title="1. ThreadLocal"></a>1. ThreadLocal</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h3><p><strong><code>ThreadLocal</code>是一个线程内部的数据存储类，通过它可以在指定的线程中存储数据</strong>，数据存储以后，<strong>只有在指定线程中可以获取到存储的数据，对于其他线程来说则无法获取到数据。</strong></p>
+<p>上面的话可以理解为，<code>ThreadLocal</code>是一个全局变量，用来存储对应<code>Thread</code>的本地变量。当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本。 举一个简单的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"MainActivity"</span>;</span><br><span class="line">    <span class="comment">//定义ThreadLocal对象</span></span><br><span class="line">    <span class="keyword">private</span> ThreadLocal&lt;Boolean&gt; mBooleanThreadLocal = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        mBooleanThreadLocal.set(<span class="keyword">true</span>);</span><br><span class="line">        Log.d(TAG, <span class="string">"[Thread#main]mBooleanThreadLocal="</span> + mBooleanThreadLocal.get());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="string">"Thread#1"</span>) &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                mBooleanThreadLocal.set(<span class="keyword">false</span>);</span><br><span class="line">                Log.d(TAG, <span class="string">"[Thread#1]mBooleanThreadLocal="</span> + mBooleanThreadLocal.get());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="string">"Thread#2"</span>) &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                Log.d(TAG, <span class="string">"[Thread#2]mBooleanThreadLocal="</span> + mBooleanThreadLocal.get());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，在主线程中设置<code>mBooleanThreadLocal</code>的值为<code>true</code>，在子线程1中设置<code>mBooleanThreadLocal</code>值为<code>false</code>，子线程2中不设置<code>mBooleanThreadLocal</code>的值。然后在3个线程中分别通过<code>get</code>方法获取值并打印出来。根据前面的描述，<em>期望的打印结果应该是：主线程为<code>true</code>，子线程1为<code>false</code>，子线程2位<code>null</code></em>，因为子线程2中没有设置值。实际打印结果如下：</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2220.37.27.png" alt="截屏2020-03-2220.37.27"></p>
+<p>可以看到，尽管在三个线程中访问的为同一个对象，但是ThreadLocal为他们各自维护了一个该对象的副本，所以访问到的结果不同。</p>
+<h3 id="2-实现原理"><a href="#2-实现原理" class="headerlink" title="2. 实现原理"></a>2. 实现原理</h3><p><strong>ThreadLocal是一个泛型类</strong>，<code>public class ThreadLocal&lt;T&gt;</code>，要理解它的工作原理，可以从<code>get</code>和<code>set</code>方法入手，先来看<code>set</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Sets the current thread's copy of this thread-local variable</span></span><br><span class="line"><span class="comment">   * to the specified value.  Most subclasses will have no need to</span></span><br><span class="line"><span class="comment">   * override this method, relying solely on the &#123;<span class="doctag">@link</span> #initialValue&#125;</span></span><br><span class="line"><span class="comment">   * method to set the values of thread-locals.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> value the value to be stored in the current thread's copy of</span></span><br><span class="line"><span class="comment">   *        this thread-local.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">      Thread t = Thread.currentThread();</span><br><span class="line">      ThreadLocalMap map = getMap(t);</span><br><span class="line">      <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">          map.set(<span class="keyword">this</span>, value);</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">          createMap(t, value);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可见，首先通过<code>getMap</code>方法来获取当前线程中的<code>ThreadLocal</code>数据，如果返回的<code>ThreadLocalMap</code>对象不为空，则调用<code>set</code>方法添加数据，否则就创建一个新对象并把值添加进去。<code>ThreadLocalMap</code>中定义了一个<code>private Entry[] table;</code>来存储数据，我们可以通过<code>set</code>方法将数据添加到<code>table</code>数组中。</p>
+<p>再来看看<code>get</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns the value in the current thread's copy of this</span></span><br><span class="line"><span class="comment">     * thread-local variable.  If the variable has no value for the</span></span><br><span class="line"><span class="comment">     * current thread, it is first initialized to the value returned</span></span><br><span class="line"><span class="comment">     * by an invocation of the &#123;<span class="doctag">@link</span> #initialValue&#125; method.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> the current thread's value of this thread-local</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">            <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">                T result = (T)e.value;</span><br><span class="line">                <span class="keyword">return</span> result;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> setInitialValue();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以发现，<code>ThreadLocal</code>的<code>get</code>方法同样是先取出当前线程的<code>ThreadLocalMap</code> 对象，如果这个对象为<code>null</code>就返回初始值，这个初始值由<code>ThreadLocal</code>的<code>initialValue()</code>方法来确定，默认情况下为<code>null</code>，默认实现如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> T <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果<code>ThreadLocalMap</code> 对象不为<code>null</code>，那么就取出<code>table</code>数组并找到相应的值返回回去。</p>
+<p>从<code>ThreadLocal</code>的<code>set</code>和<code>get</code>方法可以看出，它们所操作的对象都是当前线程的<code>ThreadLocalMap</code>对象的<code>table</code>数组，因此<strong>在不同线程中访问同一个<code>ThreadLocal</code>的<code>set</code>和<code>get</code>方法，它们对<code>ThreadLocal</code>所做的读/写操作仅限于各线程的内部</strong>，所以<code>ThreadLocal</code>可以在多个线程中互不干扰地存储和修改数据。</p>
+<h3 id="3-与Android消息机制的联系"><a href="#3-与Android消息机制的联系" class="headerlink" title="3. 与Android消息机制的联系"></a>3. 与Android消息机制的联系</h3><p>当我们在一个线程中创建一个Handler，调用Looper.prepare()时通过ThreadLocal保存当前线程下的Looper对象，而所有线程的Looper都由一个ThreadLocal来维护，也就是在所有线程中创建的Looper都存放在了同一个ThreadLocal中。而Handler又与Looper协同工作，大致关系如下图：</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2220.50.07.png" alt="截屏2020-03-2220.50.07"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2220.50.17.png" alt="截屏2020-03-2220.50.17"></p>
+<h2 id="2-MessageQueue"><a href="#2-MessageQueue" class="headerlink" title="2. MessageQueue"></a>2. MessageQueue</h2><p>最基础最底层的是Thread，每个线程内部都维护了一个消息队列——MessageQueue。消息队列MessageQueue，顾名思义，就是存放消息的队列（好像是废话…）。那队列中存储的消息是什么呢？假设我们在UI界面上单击了某个按钮，而此时程序又恰好收到了某个广播事件，那我们如何处理这两件事呢？ 因为一个线程在某一时刻只能处理一件事情，不能同时处理多件事情，所以我们不能同时处理按钮的单击事件和广播事件，我们只能挨个对其进行处理，只要挨个处理就要有处理的先后顺序。 为此Android把UI界面上单击按钮的事件封装成了一个Message，将其放入到MessageQueue里面去，即将单击按钮事件的Message入栈到消息队列中，然后再将广播事件的封装成以Message，也将其入栈到消息队列中。也就是说一个Message对象表示的是线程需要处理的一件事情，消息队列就是一堆需要处理的Message的池。线程Thread会依次取出消息队列中的消息，依次对其进行处理。MessageQueue中有两个比较重要的方法，一个是enqueueMessage方法，一个是next方法。enqueueMessage方法用于将一个Message放入到消息队列MessageQueue中，next方法是从消息队列MessageQueue中阻塞式地取出一个Message。</p>
+<p><code>enqueueMessage</code>主要操作其实就是<strong>单链表的插入操作</strong>，这里就不再过多解释了。而<strong><code>next</code>方法是一个无限循环的方法，如果消息队列中没有消息，那么<code>next</code>方法会一直阻塞在这里。当有新消息到来时，<code>next</code>方法会返回这条消息并将其从单链表中移除。</strong></p>
+<h2 id="3-Looper"><a href="#3-Looper" class="headerlink" title="3. Looper"></a>3. Looper</h2><h3 id="1-Looper的创建（使用ThreadLocal存储）"><a href="#1-Looper的创建（使用ThreadLocal存储）" class="headerlink" title="1. Looper的创建（使用ThreadLocal存储）"></a>1. Looper的创建（使用ThreadLocal存储）</h3><p><code>Looper</code>在<code>Android</code>的消息机制中扮演着消息循环的角色，具体来说就是<strong>它会不停地从<code>MessageQueue</code>中查看是否有新消息，如果有新消息就会立刻处理，否则就一直阻塞在哪里。</strong>首先来看一下它的构造方法，在构造方法中它会创建一个<code>MessageQueue</code>即消息队列，然后将当前线程的对象保存起来，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@UnsupportedAppUsage</span></span><br><span class="line"><span class="keyword">final</span> MessageQueue mQueue;</span><br><span class="line"><span class="keyword">final</span> Thread mThread;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">Looper</span><span class="params">(<span class="keyword">boolean</span> quitAllowed)</span> </span>&#123;</span><br><span class="line">        mQueue = <span class="keyword">new</span> MessageQueue(quitAllowed);</span><br><span class="line">        mThread = Thread.currentThread();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建<code>looper</code>时调用<code>looper.prepare</code>，具体操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">prepare</span><span class="params">(<span class="keyword">boolean</span> quitAllowed)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (sThreadLocal.get() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Only one Looper may be created per thread"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sThreadLocal.set(<span class="keyword">new</span> Looper(quitAllowed));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>sThreadLocal即为存储各线程Looper的ThreadLocal对象，调用其get方法判断该线程是否已经持有了Looper，如果已经持有则抛出异常，这是为了保证对于每个线程Looper的唯一性。如果没有Looper，则为该线程创建一个Looper。</p>
+<h3 id="2-Looper的循环"><a href="#2-Looper的循环" class="headerlink" title="2. Looper的循环"></a>2. Looper的循环</h3><p>而<strong><code>Looper</code>最重要的一个方法是<code>loop</code>方法，只有调用了<code>loop</code>后，消息循环系统才会真正地起作用</strong>，它的实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Run the message queue in this thread. Be sure to call</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> #quit()&#125; to end the loop.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Looper me = myLooper();</span><br><span class="line">        <span class="keyword">if</span> (me == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"No Looper; Looper.prepare() wasn't called on this thread."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">final</span> MessageQueue queue = me.mQueue;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Make sure the identity of this thread is that of the local process,</span></span><br><span class="line">        <span class="comment">// and keep track of what that identity token actually is.</span></span><br><span class="line">        Binder.clearCallingIdentity();</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">long</span> ident = Binder.clearCallingIdentity();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Allow overriding a threshold with a system prop. e.g.</span></span><br><span class="line">        <span class="comment">// adb shell 'setprop log.looper.1000.main.slow 1 &amp;&amp; stop &amp;&amp; start'</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> thresholdOverride =</span><br><span class="line">                SystemProperties.getInt(<span class="string">"log.looper."</span></span><br><span class="line">                        + Process.myUid() + <span class="string">"."</span></span><br><span class="line">                        + Thread.currentThread().getName()</span><br><span class="line">                        + <span class="string">".slow"</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">boolean</span> slowDeliveryDetected = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            Message msg = queue.next(); <span class="comment">// might block</span></span><br><span class="line">            <span class="keyword">if</span> (msg == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// No message indicates that the message queue is quitting.</span></span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// This must be in a local variable, in case a UI event sets the logger</span></span><br><span class="line">            <span class="keyword">final</span> Printer logging = me.mLogging;</span><br><span class="line">            <span class="keyword">if</span> (logging != <span class="keyword">null</span>) &#123;</span><br><span class="line">                logging.println(<span class="string">"&gt;&gt;&gt;&gt;&gt; Dispatching to "</span> + msg.target + <span class="string">" "</span> +</span><br><span class="line">                        msg.callback + <span class="string">": "</span> + msg.what);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// Make sure the observer won't change while processing a transaction.</span></span><br><span class="line">            <span class="keyword">final</span> Observer observer = sObserver;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">long</span> traceTag = me.mTraceTag;</span><br><span class="line">            <span class="keyword">long</span> slowDispatchThresholdMs = me.mSlowDispatchThresholdMs;</span><br><span class="line">            <span class="keyword">long</span> slowDeliveryThresholdMs = me.mSlowDeliveryThresholdMs;</span><br><span class="line">            <span class="keyword">if</span> (thresholdOverride &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                slowDispatchThresholdMs = thresholdOverride;</span><br><span class="line">                slowDeliveryThresholdMs = thresholdOverride;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">boolean</span> logSlowDelivery = (slowDeliveryThresholdMs &gt; <span class="number">0</span>) &amp;&amp; (msg.when &gt; <span class="number">0</span>);</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">boolean</span> logSlowDispatch = (slowDispatchThresholdMs &gt; <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">boolean</span> needStartTime = logSlowDelivery || logSlowDispatch;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">boolean</span> needEndTime = logSlowDispatch;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (traceTag != <span class="number">0</span> &amp;&amp; Trace.isTagEnabled(traceTag)) &#123;</span><br><span class="line">                Trace.traceBegin(traceTag, msg.target.getTraceName(msg));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">long</span> dispatchStart = needStartTime ? SystemClock.uptimeMillis() : <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">long</span> dispatchEnd;</span><br><span class="line">            Object token = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">if</span> (observer != <span class="keyword">null</span>) &#123;</span><br><span class="line">                token = observer.messageDispatchStarting();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">long</span> origWorkSource = ThreadLocalWorkSource.setUid(msg.workSourceUid);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                msg.target.dispatchMessage(msg);</span><br><span class="line">                <span class="keyword">if</span> (observer != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    observer.messageDispatched(token, msg);</span><br><span class="line">                &#125;</span><br><span class="line">                dispatchEnd = needEndTime ? SystemClock.uptimeMillis() : <span class="number">0</span>;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception exception) &#123;</span><br><span class="line">                <span class="keyword">if</span> (observer != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    observer.dispatchingThrewException(token, msg, exception);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">throw</span> exception;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                ThreadLocalWorkSource.restore(origWorkSource);</span><br><span class="line">                <span class="keyword">if</span> (traceTag != <span class="number">0</span>) &#123;</span><br><span class="line">                    Trace.traceEnd(traceTag);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (logSlowDelivery) &#123;</span><br><span class="line">                <span class="keyword">if</span> (slowDeliveryDetected) &#123;</span><br><span class="line">                    <span class="keyword">if</span> ((dispatchStart - msg.when) &lt;= <span class="number">10</span>) &#123;</span><br><span class="line">                        Slog.w(TAG, <span class="string">"Drained"</span>);</span><br><span class="line">                        slowDeliveryDetected = <span class="keyword">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (showSlowLog(slowDeliveryThresholdMs, msg.when, dispatchStart, <span class="string">"delivery"</span>,</span><br><span class="line">                            msg)) &#123;</span><br><span class="line">                        <span class="comment">// Once we write a slow delivery log, suppress until the queue drains.</span></span><br><span class="line">                        slowDeliveryDetected = <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (logSlowDispatch) &#123;</span><br><span class="line">                showSlowLog(slowDispatchThresholdMs, dispatchStart, dispatchEnd, <span class="string">"dispatch"</span>, msg);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (logging != <span class="keyword">null</span>) &#123;</span><br><span class="line">                logging.println(<span class="string">"&lt;&lt;&lt;&lt;&lt; Finished to "</span> + msg.target + <span class="string">" "</span> + msg.callback);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Make sure that during the course of dispatching the</span></span><br><span class="line">            <span class="comment">// identity of the thread wasn't corrupted.</span></span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">long</span> newIdent = Binder.clearCallingIdentity();</span><br><span class="line">            <span class="keyword">if</span> (ident != newIdent) &#123;</span><br><span class="line">                Log.wtf(TAG, <span class="string">"Thread identity changed from 0x"</span></span><br><span class="line">                        + Long.toHexString(ident) + <span class="string">" to 0x"</span></span><br><span class="line">                        + Long.toHexString(newIdent) + <span class="string">" while dispatching to "</span></span><br><span class="line">                        + msg.target.getClass().getName() + <span class="string">" "</span></span><br><span class="line">                        + msg.callback + <span class="string">" what="</span> + msg.what);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            msg.recycleUnchecked();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>选取其中比较关键的部分做一下讲解：</p>
+<ol>
+<li><p>final MessageQueue queue = me.mQueue; </p>
+<p>变量me是通过静态方法myLooper()获得的当前线程所绑定的Looper，me.mQueue是当前线程所关联的消息</p>
+<p>队列。 </p>
+</li>
+<li><p>for (;;) </p>
+<p>我们发现for循环没有设置循环终止的条件，所以这个for循环是个死循环。 </p>
+</li>
+<li><p>Message msg = queue.next(); // might block </p>
+<p>我们通过消息队列MessageQueue的next方法从消息队列中取出一条消息，如果此时消息队列中有Message，</p>
+<p>那么next方法会立即返回该Message，如果此时消息队列中没有Message，那么next方法就会阻塞式地等待获</p>
+<p>取Message。 </p>
+</li>
+<li><p>msg.target.dispatchMessage(msg); </p>
+<p>msg的target属性是Handler，该代码的意思是让Message所关联的Handler通过dispatchMessage方法让</p>
+<p>Handler处理该Message，关于Handler的dispatchMessage方法将会在下面详细介绍。</p>
+</li>
+</ol>
+<p><code>loop</code>方法是一个死循环，唯一跳出循环的方式是<code>MessageQueue</code>的<code>next</code>方法返回了<code>null</code>。</p>
+<p>当<code>Looper</code>的quit方法被调用时，<code>Looper</code>就会调用<code>MessageQueue</code>的quit方法或quitSafely方法来通知消息队列退出，当消息队列被标记为退出状态时，它的<code>next</code>方法就会返回<code>null</code>。如果<code>MessageQueue</code>的<code>next</code>方法返回了新消息，<code>Looper</code>就会处理这条消息： <code>msg.target.dispatchMessage(msg)</code>，这里的<strong><code>msg.target</code>是发送这条消息的<code>Handler</code>对象</strong>，这样<code>Handler</code>发送的消息最终又交给它的<code>dispatchMessage</code>方法来处理了。但是这里不同的是，<strong><code>Handler</code>的<code>dispatchMessage</code>方法是在创建<code>Handler</code>时所使用的<code>Looper</code>中执行的，这样就成功的将代码逻辑切换到指定的线程中去执行了。</strong></p>
+<h2 id="4-Handler"><a href="#4-Handler" class="headerlink" title="4. Handler"></a>4. Handler</h2><h3 id="1-消息发送"><a href="#1-消息发送" class="headerlink" title="1. 消息发送"></a>1. 消息发送</h3><p><strong><code>Handler</code>的工作主要包含消息的发送和接收过程</strong>。消息的发送最终是通过<code>send</code>的一系列方法来实现的。发送一条消息的典型过程如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">sendMessage</span><span class="params">(Message msg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> sendMessageDelayed(msg, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">sendMessageDelayed</span><span class="params">(Message msg, <span class="keyword">long</span> delayMillis)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (delayMillis &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        delayMillis = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sendMessageAtTime(msg, SystemClock.uptimeMillis() + delayMillis);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">sendMessageAtTime</span><span class="params">(Message msg, <span class="keyword">long</span> uptimeMillis)</span> </span>&#123;</span><br><span class="line">    MessageQueue queue = mQueue;</span><br><span class="line">    <span class="keyword">if</span> (queue == <span class="keyword">null</span>) &#123;</span><br><span class="line">        RuntimeException e = <span class="keyword">new</span> RuntimeException(</span><br><span class="line">                <span class="keyword">this</span> + <span class="string">" sendMessageAtTime() called with no mQueue"</span>);</span><br><span class="line">        Log.w(<span class="string">"Looper"</span>, e.getMessage(), e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> enqueueMessage(queue, msg, uptimeMillis);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">enqueueMessage</span><span class="params">(MessageQueue queue, Message msg, <span class="keyword">long</span> uptimeMillis)</span> </span>&#123;</span><br><span class="line">    msg.target = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">if</span> (mAsynchronous) &#123;</span><br><span class="line">        msg.setAsynchronous(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> queue.enqueueMessage(msg, uptimeMillis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在enqueueMessage中有两件事需要注意： </p>
+<ol>
+<li>msg.target = this<br>该代码将Message的target绑定为当前的Handler </li>
+<li>queue.enqueueMessage<br>变量queue表示的是Handler所绑定的消息队列MessageQueue，通过调用queue.enqueueMessage(msg, uptimeMillis)我们将Message放入到消息队列中。</li>
+</ol>
+<p>其他的一些调用最终也都归结到上面这个流程中：</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2223.49.29.png" alt="截屏2020-03-2223.49.29"></p>
+<h3 id="2-消息处理"><a href="#2-消息处理" class="headerlink" title="2. 消息处理"></a>2. 消息处理</h3><p>通过上文可以发现，<code>Handler</code>发送消息的过程仅仅是向消息队列插入了一条消息，<code>MessageQueue</code>的<code>next</code>方法就会返回这条消息给<code>Looper</code>，<code>Looper</code>收到消息后就开始处理了，<strong>最终消息由<code>Looper</code>交由<code>Handler</code>处理，即<code>Handler</code>的<code>dispatchMessage</code>方法会被调用</strong>，这时Handler就进入了处理消息的阶段。<code>dispatchMessage</code>的实现如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatchMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (msg.callback != <span class="keyword">null</span>) &#123;</span><br><span class="line">        handleCallback(msg);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (mCallback != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (mCallback.handleMessage(msg)) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        handleMessage(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，如果我们设置了callback（Runnable对象）的话，则会直接调用handleCallback方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">handleCallback</span><span class="params">(Message message)</span> </span>&#123;</span><br><span class="line">        message.callback.run();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>即，如果我们在初始化Handler的时候设置了callback（Runnable）对象，则直接调用run方法。比如我们经常写的runOnUiThread方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">runOnUiThread</span><span class="params">(Runnable action)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (Thread.currentThread() != mUiThread) &#123;</span><br><span class="line">          mHandler.post(action);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          action.run();</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而如果msg.callback为空的话，会直接调用我们的mCallback.handleMessage(msg)，即handler的handlerMessage方法。handlerMessage方法的执行也会在创建handler的线程中。</p>
+<p>综上，我们可以看到Handler提供了三种途径处理Message，而且处理有前后优先级之分：首先尝试让postXXX中传递的Runnable执行，其次尝试让Handler构造函数中传入的Callback的handleMessage方法处理，最后才是让Handler自身的handleMessage方法处理Message。</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2222.54.22.png" alt="截屏2020-03-2222.54.22"></p>
+<h3 id="3-post与send的比较"><a href="#3-post与send的比较" class="headerlink" title="3. post与send的比较"></a>3. post与send的比较</h3><p>上述例子都是使用send方法，这里加一个post的例子帮助理解handler对于不同类型信息的处理</p>
+<p>首先，调用post方法时依然调用了sendMessageDelayed，但是值得注意的是这里的参数有所不同，使用了getPostMessage(r)作为参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">post</span><span class="params">(Runnable r)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">       <span class="keyword">return</span>  sendMessageDelayed(getPostMessage(r), <span class="number">0</span>);<span class="comment">//getPostMessage方法是两种发送消息的不同之处</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么我们来看一看👀这个getPostMessage方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Message <span class="title">getPostMessage</span><span class="params">(Runnable r)</span> </span>&#123;</span><br><span class="line">        Message m = Message.obtain();</span><br><span class="line">        m.callback = r;</span><br><span class="line">        <span class="keyword">return</span> m;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，依然是把Runnable对象封装成了一个Message进行发送，不过这里设置了m.callback = r ，这也呼应了上文中提到的，如果我们在初始化Handler的时候设置了callback（Runnable）对象，则直接调用run方法。</p>
+<h3 id="4-Callback"><a href="#4-Callback" class="headerlink" title="4. Callback"></a>4. Callback</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Callback interface you can use when instantiating a Handler to avoid</span></span><br><span class="line"><span class="comment"> * having to implement your own subclass of Handler.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> msg A &#123;<span class="doctag">@link</span> android.os.Message Message&#125; object</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> True if no further handling is desired</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callback</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Handler.Callback是用来处理Message的一种手段，如果没有传递该参数，那么就应该重写Handler的handleMessage方法，也就是说为了使得Handler能够处理Message，我们有两种办法： </p>
+<ol>
+<li>向Hanlder的构造函数传入一个Handler.Callback对象，并实现Handler.Callback的handleMessage方法 </li>
+<li>无需向Hanlder的构造函数传入Handler.Callback对象，但是需要重写Handler本身的handleMessage方法  </li>
+</ol>
+<p>也就是说无论哪种方式，我们都得通过某种方式实现handleMessage方法，这点与Java中对Thread的设计有异曲同工之处。 </p>
+<blockquote>
+<p>在Java中，如果我们想使用多线程，有两种办法： </p>
+<ol>
+<li><p>向Thread的构造函数传入一个Runnable对象，并实现Runnable的run方法 </p>
+</li>
+<li><p>无需向Thread的构造函数传入Runnable对象，但是要重写Thread本身的run方法 </p>
+</li>
+</ol>
+</blockquote>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h2><ul>
+<li><p>在使用handler的时候，在handler所创建的线程需要维护一个唯一的Looper对象， 每个线程对应一个Looper，每个线程的Looper通过ThreadLocal来保证</p>
+</li>
+<li><p>Looper对象的内部又维护有唯一的一个MessageQueue，所以一个线程可以有多个handler，<br>但是只能有一个Looper和一个MessageQueue。</p>
+</li>
+<li><p>Message在MessageQueue不是通过一个列表来存储的，而是将传入的Message存入到了上一个<br>Message的next中，在取出的时候通过顶部的Message就能按放入的顺序依次取出Message。</p>
+</li>
+<li><p>Looper对象通过loop()方法开启了一个死循环，不断地从looper内的MessageQueue中取出Message，<br>然后通过handler将消息分发传回handler所在的线程。</p>
+</li>
+<li><p>handler收到消息以后，通过handleMessage进行消息处理</p>
+</li>
+</ul>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-03-2222.58.00.png" alt="截屏2020-03-2222.58.00"></p>
+<h2 id="6-补充：资源管理与内存泄漏"><a href="#6-补充：资源管理与内存泄漏" class="headerlink" title="6. 补充：资源管理与内存泄漏"></a>6. 补充：资源管理与内存泄漏</h2><h3 id="1-Handler的内存泄漏问题"><a href="#1-Handler的内存泄漏问题" class="headerlink" title="1. Handler的内存泄漏问题"></a>1. Handler的内存泄漏问题</h3><p>Handler使用是用来进行线程间通信的，所以新开启的线程会持有Handler引用，如果在Activity等中创建Handler，并且是非静态内部类的形式，就有可能造成内存泄漏。</p>
+<p>首先，非静态内部类是会隐式持有外部类的引用，所以当其他线程持有了该Handler，线程没有被销毁，则意味着Activity会一直被Handler持有引用而无法导致回收。</p>
+<p>同时，MessageQueue中如果存在未处理完的Message，Message的target也是对Activity等的持有引用，也会</p>
+<p>造成内存泄漏。</p>
+<p>解决的办法：</p>
+<ul>
+<li><p>使用静态内部类+弱引用的方式:</p>
+<p> 静态内部类不会持有外部类的的引用，当需要引用外部类相关操作时，可以通过弱引用还获取到外部类相关操作，弱引用不会造成对象该回收回收不掉的问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Handler sHandler = <span class="keyword">new</span> TestHandler(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TestHandler</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> WeakReference&lt;Activity&gt; mActivity;</span><br><span class="line">    TestHandler(Activity activity) &#123;</span><br><span class="line">        mActivity = <span class="keyword">new</span> WeakReference&lt;&gt;(activity);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">    		<span class="keyword">super</span>.handleMessage(msg);</span><br><span class="line">    		Activity activity = mActivity.get();</span><br><span class="line">    		<span class="keyword">if</span> (activity != <span class="keyword">null</span>) &#123;</span><br><span class="line">        		<span class="comment">//<span class="doctag">TODO:</span></span></span><br><span class="line">    		&#125;	</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在外部类对象被销毁时，将MessageQueue中的消息清空。例如，在Activity的onDestroy时将消息清空。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    handler.removeCallbacksAndMessages(<span class="keyword">null</span>);</span><br><span class="line">    <span class="keyword">super</span>.onDestroy();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="2-创建Message时的资源管理"><a href="#2-创建Message时的资源管理" class="headerlink" title="2. 创建Message时的资源管理"></a>2. 创建Message时的资源管理</h3><p>使用Handler.obtainMessage()来获取Message对象的，和直接new一个Message有什么差别呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Message message = handler.obtainMessage();</span><br><span class="line">Message message = <span class="keyword">new</span> Message();</span><br></pre></td></tr></table></figure>
+
+<p>看一看obtain的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Message <span class="title">obtain</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (sPoolSync) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sPool != <span class="keyword">null</span>) &#123;</span><br><span class="line">                Message m = sPool;</span><br><span class="line">                sPool = m.next;</span><br><span class="line">                m.next = <span class="keyword">null</span>;</span><br><span class="line">                m.flags = <span class="number">0</span>; <span class="comment">// clear in-use flag</span></span><br><span class="line">                sPoolSize--;</span><br><span class="line">                <span class="keyword">return</span> m;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Message();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在Message中有一个static Message变量sPool，这个变量是用于缓存Message对象的，在obtain中可以看到当需要一个Message对象时，如果sPool不为空则会返回当前sPool（Message），而将sPool指向了之前sPool的next对象，（之前讲MessageQueue时讲过Message的存储是以链式的形式存储的，通过Message的next指向下一个Message，这里就是返回了sPool当前这个Message，然后sPool重新指向了其下一个Message），然后将返回的Message的next指向置为空（断开链表），sPoolSize记录了当前缓存的Message的数量，如果sPool为空，则没有缓存的Message，则需要创建一个新的Message（new Message）。</p>
+<p>那么，缓存中的sPool是哪里来的呢</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">recycle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isInUse()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (gCheckRecycle) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"This message cannot be recycled because it "</span></span><br><span class="line">                        + <span class="string">"is still in use."</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        recycleUnchecked();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">recycleUnchecked</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Mark the message as in use while it remains in the recycled object pool.</span></span><br><span class="line">        <span class="comment">// Clear out all other details.</span></span><br><span class="line">        flags = FLAG_IN_USE;</span><br><span class="line">        what = <span class="number">0</span>;</span><br><span class="line">        arg1 = <span class="number">0</span>;</span><br><span class="line">        arg2 = <span class="number">0</span>;</span><br><span class="line">        obj = <span class="keyword">null</span>;</span><br><span class="line">        replyTo = <span class="keyword">null</span>;</span><br><span class="line">        sendingUid = -<span class="number">1</span>;</span><br><span class="line">        when = <span class="number">0</span>;</span><br><span class="line">        target = <span class="keyword">null</span>;</span><br><span class="line">        callback = <span class="keyword">null</span>;</span><br><span class="line">        data = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">synchronized</span> (sPoolSync) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sPoolSize &lt; MAX_POOL_SIZE) &#123;</span><br><span class="line">                next = sPool;</span><br><span class="line">                sPool = <span class="keyword">this</span>;</span><br><span class="line">                sPoolSize++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>recycle()是回收Message的方法,在Message处理完或者清空Message等时会调用。recycleUnchecked（）方法中可以看到，将what、arg1、arg2、object等都重置了值，如果当前sPool（Message缓存池）的大小小于允许缓存的Message最大数量时，将要回收的Message的next指向sPool，将sPool指向了回收的Message对象（即将Message放到了sPool缓存池的头部）</p>
+<h2 id="7-参考文章"><a href="#7-参考文章" class="headerlink" title="7. 参考文章"></a>7. 参考文章</h2><p>这些是我在准备和学习过程中参考的一些博客，大家有兴趣可以自己再康康👀</p>
+<ul>
+<li><p>Android消息机制： <a href="https://www.jianshu.com/p/7653adc038c6" target="_blank" rel="noopener">https://www.jianshu.com/p/7653adc038c6</a></p>
+</li>
+<li><p>Android消息机制： <a href="https://blog.csdn.net/wsq_tomato/article/details/80301851?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/wsq_tomato/article/details/80301851?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></p>
+</li>
+<li><p>Handler.post: <a href="https://blog.csdn.net/ly502541243/article/details/52062179?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/ly502541243/article/details/52062179?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></p>
+</li>
+<li><p>post()和postDelay()方法精炼详解： <a href="https://blog.csdn.net/weixin_41101173/article/details/79701832" target="_blank" rel="noopener">https://blog.csdn.net/weixin_41101173/article/details/79701832</a></p>
+</li>
+<li><p>你真的了解Handler？： <a href="https://blog.csdn.net/qian520ao/article/details/78262289?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/qian520ao/article/details/78262289?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></p>
+</li>
+<li><p>深入源码解析Android中的Handler,Message,MessageQueue,Looper：<a href="https://blog.csdn.net/iispring/article/details/47180325" target="_blank" rel="noopener">https://blog.csdn.net/iispring/article/details/47180325</a></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/desirelife6.github.io/tags/Android知识/" rel="tag"><i class="fa fa-tag"></i>Android知识</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/desirelife6.github.io/2019/11/13/在CentOS环境下搭建Apache服务器——实验报告/" rel="next" title="CentOS搭建Apache服务器和ftp服务器">
+                <i class="fa fa-chevron-left"></i> CentOS搭建Apache服务器和ftp服务器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/desirelife6.github.io/images/my_avatar.jpg" alt="Desirelife">
+            
+              <p class="site-author-name" itemprop="name">Desirelife</p>
+              <p class="site-description motion-element" itemprop="description">一个爱生活爱吃饭的积极的人</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/desirelife6.github.io/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/desirelife6.github.io/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/desirelife6.github.io/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Desirelife6" title="GitHub &rarr; https://github.com/Desirelife6"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:897644126@qq.com" title="E-Mail &rarr; mailto:897644126@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android消息机制"><span class="nav-number">1.</span> <span class="nav-text">Android消息机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-ThreadLocal"><span class="nav-number">1.1.</span> <span class="nav-text">1. ThreadLocal</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-实现原理"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-与Android消息机制的联系"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 与Android消息机制的联系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-MessageQueue"><span class="nav-number">1.2.</span> <span class="nav-text">2. MessageQueue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Looper"><span class="nav-number">1.3.</span> <span class="nav-text">3. Looper</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Looper的创建（使用ThreadLocal存储）"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. Looper的创建（使用ThreadLocal存储）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Looper的循环"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. Looper的循环</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Handler"><span class="nav-number">1.4.</span> <span class="nav-text">4. Handler</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-消息发送"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 消息发送</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-消息处理"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 消息处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-post与send的比较"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. post与send的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Callback"><span class="nav-number">1.4.4.</span> <span class="nav-text">4. Callback</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-总结"><span class="nav-number">1.5.</span> <span class="nav-text">5. 总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-补充：资源管理与内存泄漏"><span class="nav-number">1.6.</span> <span class="nav-text">6. 补充：资源管理与内存泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Handler的内存泄漏问题"><span class="nav-number">1.6.1.</span> <span class="nav-text">1. Handler的内存泄漏问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建Message时的资源管理"><span class="nav-number">1.6.2.</span> <span class="nav-text">2. 创建Message时的资源管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-参考文章"><span class="nav-number">1.7.</span> <span class="nav-text">7. 参考文章</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heartbeat"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Desirelife6</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" ' opacity="0.85" zindex="-1" count="99" src="/desirelife6.github.io/lib/canvas-nest/canvas-nest-nomobile.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/desirelife6.github.io/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/desirelife6.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/desirelife6.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/desirelife6.github.io/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/desirelife6.github.io/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/desirelife6.github.io/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/desirelife6.github.io/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/desirelife6.github.io/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/desirelife6.github.io/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/desirelife6.github.io/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+
+
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function (item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'n9UuiH8iAooE6proByRtdAX8-gzGzoHsz',
+    appKey: 'xvkM0lzjv3J3PhBYcN447hWI',
+    placeholder: 'Leave a message...',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/desirelife6.github.io/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/js/src/snow.js"></script>
+<style type="text/css">
+.snow-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:100001;}</style>
+<div class="snow-container"></div>
+</body>
+</html>
