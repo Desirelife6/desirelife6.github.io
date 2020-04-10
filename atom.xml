@@ -6,7 +6,7 @@
   <link href="/desirelife6.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/Desirelife6/child/"/>
-  <updated>2020-04-10T10:08:33.780Z</updated>
+  <updated>2020-04-10T10:26:39.926Z</updated>
   <id>https://github.com/Desirelife6/child/</id>
   
   <author>
@@ -21,17 +21,11 @@
     <link href="https://github.com/Desirelife6/child/2020/04/10/Android%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/"/>
     <id>https://github.com/Desirelife6/child/2020/04/10/Android消息机制/</id>
     <published>2020-04-10T09:38:11.000Z</published>
-    <updated>2020-04-10T10:08:33.780Z</updated>
+    <updated>2020-04-10T10:26:39.926Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h1 id=&quot;Android消息机制&quot;&gt;&lt;a href=&quot;#Android消息机制&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;p&gt;Android的消息机制主要是指的&lt;code&gt;Handler&lt;/code&gt;的运行机制以及&lt;code&gt;Handler&lt;/code&gt;所附带的&lt;code&gt;MessageQueue&lt;/code&gt;和&lt;code&gt;Looper&lt;/code&gt;的工作过程，这三者实际上是一个整体。&lt;/p&gt;
     
     </summary>
     
