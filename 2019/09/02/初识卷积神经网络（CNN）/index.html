@@ -119,33 +119,33 @@
 
 
 
-  <meta name="description" content="一、基础结构CNN和之 前介绍的神经网络一样，可以像乐高积木一样通过组装层来构建。不过， CNN中新出现了卷积层（Convolution层）和池化层（Pooling层）。此外，各层中传递的数据是有形状的数据（比如，3维数据）  靠近输出的层中使用了之前 的“ Affine - ReLU”组合。此外，最后的输出层中使用了之前的“Affine - Softmax”组合。这些都是一般的CNN中比较常见的">
+  <meta name="description" content="本文简单介绍了CNN的概念及原理">
 <meta name="keywords" content="神经网络,机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初始卷积神经网络（CNN）">
 <meta property="og:url" content="https://github.com/Desirelife6/child/2019/09/02/初识卷积神经网络（CNN）/index.html">
 <meta property="og:site_name" content="Desirelife&#39;s blog">
-<meta property="og:description" content="一、基础结构CNN和之 前介绍的神经网络一样，可以像乐高积木一样通过组装层来构建。不过， CNN中新出现了卷积层（Convolution层）和池化层（Pooling层）。此外，各层中传递的数据是有形状的数据（比如，3维数据）  靠近输出的层中使用了之前 的“ Affine - ReLU”组合。此外，最后的输出层中使用了之前的“Affine - Softmax”组合。这些都是一般的CNN中比较常见的">
+<meta property="og:description" content="本文简单介绍了CNN的概念及原理">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.07.02.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.07.40.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.08.15.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.08.41.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.09.12.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.09.44.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.10.17.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.10.38.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.10.58.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.11.31.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.11.56.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.12.22.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.12.55.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.13.22.png">
-<meta property="og:updated_time" content="2020-04-10T11:17:05.699Z">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.12.42.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.14.11.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.14.25.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.14.38.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.15.18.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.15.29.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.15.48.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.15.58.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.16.15.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.16.26.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.16.36.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.16.46.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.16.53.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.17.05.png">
+<meta property="og:updated_time" content="2020-04-11T02:43:19.249Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初始卷积神经网络（CNN）">
-<meta name="twitter:description" content="一、基础结构CNN和之 前介绍的神经网络一样，可以像乐高积木一样通过组装层来构建。不过， CNN中新出现了卷积层（Convolution层）和池化层（Pooling层）。此外，各层中传递的数据是有形状的数据（比如，3维数据）  靠近输出的层中使用了之前 的“ Affine - ReLU”组合。此外，最后的输出层中使用了之前的“Affine - Softmax”组合。这些都是一般的CNN中比较常见的">
-<meta name="twitter:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.07.02.png">
+<meta name="twitter:description" content="本文简单介绍了CNN的概念及原理">
+<meta name="twitter:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.12.42.png">
 
 
 
@@ -471,7 +471,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-10 19:17:05" itemprop="dateModified" datetime="2020-04-10T19:17:05+08:00">2020-04-10</time>
+                <time title="修改时间：2020-04-11 10:43:19" itemprop="dateModified" datetime="2020-04-11T10:43:19+08:00">2020-04-11</time>
               
             
           </span>
@@ -518,6 +518,8 @@
           
 
           
+            <div class="post-description">本文简单介绍了CNN的概念及原理</div>
+          
 
         </div>
       </header>
@@ -532,37 +534,41 @@
       
 
       
-        <h2 id="一、基础结构"><a href="#一、基础结构" class="headerlink" title="一、基础结构"></a>一、基础结构</h2><p>CNN和之 前介绍的神经网络一样，可以像乐高积木一样通过组装层来构建。不过， CNN中新出现了卷积层（Convolution层）和池化层（Pooling层）。此外，各层中传递的数据是有形状的数据（比如，3维数据）</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.07.02.png" alt="截屏2020-04-1019.07.02"></p>
+        <h2 id="一、基础结构"><a href="#一、基础结构" class="headerlink" title="一、基础结构"></a>一、基础结构</h2><p>CNN和之前介绍的神经网络一样，可以像乐高积木一样通过组装层来构建。不过， CNN中新出现了卷积层（Convolution层）和池化层（Pooling层）。此外，各层中传递的数据是有形状的数据（比如，3维数据）</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.12.42.png" alt="截屏2020-04-1020.12.42"></p>
 <p>靠近输出的层中使用了之前 的“ Affine - ReLU”组合。此外，最后的输出层中使用了之前的“Affine - Softmax”组合。这些都是一般的CNN中比较常见的结构。</p>
 <h2 id="二、卷积层"><a href="#二、卷积层" class="headerlink" title="二、卷积层"></a>二、卷积层</h2><h3 id="2-1-卷积层的优势"><a href="#2-1-卷积层的优势" class="headerlink" title="2.1 卷积层的优势"></a>2.1 卷积层的优势</h3><p>在全连接层中，数据的形状被忽视了。以图像输入为例子，图像通常是高、长、通道方向上的3维形状。但是，向全连接层输入时，需要将3维数据拉平为1维数据。前面提到的使用 了MNIST数据集的例子中，输入图像就是1通道、高28像素、长28像素的（1, 28, 28）形状，但却被排成1列，以784个数据的形式输入到最开始的 Affine层。<br>而卷积层可以保持形状不变。当输入数据是图像时，卷积层会以3维数据的形式接收输入数据，并同样以3维数据的形式输出至下一层。因此可以提取出邻近的像素为相似的值、RBG的各个通道之间分别有密切的关联性、相距 较远的像素之间没有什么关联等值得提取的本质模式，利用与数据形状相关的信息。</p>
 <h3 id="2-2-卷积运算（图像处理中的滤波器运算）"><a href="#2-2-卷积运算（图像处理中的滤波器运算）" class="headerlink" title="2.2 卷积运算（图像处理中的滤波器运算）"></a>2.2 卷积运算（图像处理中的滤波器运算）</h3><h4 id="2-2-1-卷积运算基本过程"><a href="#2-2-1-卷积运算基本过程" class="headerlink" title="2.2.1 卷积运算基本过程"></a>2.2.1 卷积运算基本过程</h4><p>先来看一个经过卷积运算的结果</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.07.40.png" alt="截屏2020-04-1019.07.40"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.14.11.png" alt="截屏2020-04-1020.14.11"></p>
 <p>对于输入数据，卷积运算以一定间隔滑动滤波器的窗口并应用。这里所说的窗口是指下图中灰色的3×3的部分。如下图所示，将各个位置上滤波器的元素和输入的对应元素相乘，然后再求和（有时将这个计算称为乘积累加运算）。然后，将这个结果保存到输出的对应位置。将这个过程在所有位置都进行一遍，就可以得到卷积运算的输出。 如果有偏置，则在卷积运算结果的各个位置都加上偏置的值。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.08.15.png" alt="截屏2020-04-1019.08.15"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.14.25.png" alt="截屏2020-04-1020.14.25"></p>
 <h4 id="2-2-2-填充"><a href="#2-2-2-填充" class="headerlink" title="2.2.2 填充"></a>2.2.2 填充</h4><p>在卷积神经网络中引入了填充和步幅等特殊概念，这里我们来介绍一下填充。<br>在进行卷积层的处理之前，有时要向输入数据的周围填入固定的数据（比如0等），这称为填充（padding），是卷积运算中经常会用到的处理。比如， 在下图的例子中，对大小为(4, 4)的输入数据应用了幅度为1的填充。“幅度为1的填充”是指用幅度为1像素的0填充周围。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.08.41.png" alt="截屏2020-04-1019.08.41"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.14.38.png" alt="截屏2020-04-1020.14.38"></p>
 <p>可以看到，通过填充，大小为(4, 4)的输入数据变成了(6,6)的形状。 然后，应用大小为(3, 3)的滤波器，生成了大小为(4,4)的输出数据。这个例子中将填充的值设成了1，不过填充的值也可以设置成2、3等任意的整数。在图该例子中，如果将填充设为2，则输入数据的大小变为(8,8)；如果将填充设 为3，则大小变为(10, 10)。</p>
 <blockquote>
 <p>使用填充主要是为了调整输出的大小。比如，对大小为(4, 4)的输入数据应用(3,3)的滤波器时，输出大小变为(2, 2)，相当于输出大小比输入大小缩小了2个元素。在反复进行多次卷积运算的深度网络中,如果每次进行卷积运算都会缩小空间，那么在某个时刻输出大小就有可能变为1，导致无法再应用卷积运算。</p>
 </blockquote>
 <h4 id="2-2-3-步幅"><a href="#2-2-3-步幅" class="headerlink" title="2.2.3 步幅"></a>2.2.3 步幅</h4><p>介绍完填充，再来介绍一下步幅。步幅是应用滤波器的位置间隔，以下是步幅为2的情况。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.09.12.png" alt="截屏2020-04-1019.09.12"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.15.18.png" alt="截屏2020-04-1020.15.18"></p>
 <h4 id="2-2-4-填充，步幅和输出结果的关系"><a href="#2-2-4-填充，步幅和输出结果的关系" class="headerlink" title="2.2.4 填充，步幅和输出结果的关系"></a>2.2.4 填充，步幅和输出结果的关系</h4><p>增大步幅后，输出大小会变小。而增大填充后，输出大小会变大。 如果将这样的关系写成算式，会如何呢？<br>我们看一下对于填充和步幅，如何计算输出大小。 这里，假设输入大小为(H,W)，滤波器大小为(FH,FW)，输出大小为 (OH,OW)，填充为P，步幅为S。此时，输出大小可通过下列式子计算。</p>
 <hr>
 <p>$$ OH = \frac{H+2P-FH}{S} + 1 $$</p>
 <p>$$ OW = \frac{H+2P-FW}{S} + 1 $$</p>
 <hr>
 <p><strong>我们来思考一个问题，为什么卷积运算是有效的？</strong><br>依然用例子来说明，比如我们有一个4*4的图像，我们设计两个卷积核，看看运用卷积核后图片会变成什么样。</p>
-<h4 id><a href="#" class="headerlink" title></a><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.09.44.png" alt="截屏2020-04-1019.09.44"></h4><p>从结果可以看出，通过第一个卷积核计算后的特征图是一个三维数据，在第三列的绝对值最大，说明原始图片上对应的地方有一条垂直方向的特征，即像素数值变化较大；<br>而通过第二个卷积核计算后，第三列的数值为0，第二行的数值绝对值最大，说明原始图片上对应的地方有一条水平方向的特征，即像素值数值变化较大。<br>这样就提取出了大致的两个特征，通过在更深层次的网络中设置更多更巧妙的卷积核，我们就可以得到更多更准确的特征。<br>我们设计的卷积核分别能够提取，或者说检测出原始图片的特定的特征。所以实际上就可以把卷积核理解为特征提取器，我们不需要手动去选取特征，只用设计好卷积核的尺寸，数量和滑动的步长就可以让它自己去训练了。同时，由于多个神经元可以共享卷积核，对于高位数据的处理将会变得非常简单。<br>留下几个小问题供大家思考：</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.15.29.png" alt="截屏2020-04-1020.15.29"></p>
+<p>从结果可以看出，通过第一个卷积核计算后的特征图是一个三维数据，在第三列的绝对值最大，说明原始图片上对应的地方有一条垂直方向的特征，即像素数值变化较大；<br>而通过第二个卷积核计算后，第三列的数值为0，第二行的数值绝对值最大，说明原始图片上对应的地方有一条水平方向的特征，即像素值数值变化较大。<br>这样就提取出了大致的两个特征，通过在更深层次的网络中设置更多更巧妙的卷积核，我们就可以得到更多更准确的特征。<br>我们设计的卷积核分别能够提取，或者说检测出原始图片的特定的特征。所以实际上就可以把卷积核理解为特征提取器，我们不需要手动去选取特征，只用设计好卷积核的尺寸，数量和滑动的步长就可以让它自己去训练了。同时，由于多个神经元可以共享卷积核，对于高位数据的处理将会变得非常简单。<br>留下几个小问题供大家思考：</p>
 <p>1.卷积核的尺寸必须为正方形吗？可以为长方形吗？如果是长方形应该怎么计算？</p>
 <p>2.卷积核的个数如何确定？每一层的卷积核的个数都是相同的吗？ </p>
 <p>3.步长的向右和向下移动的幅度必须是一样的吗？</p>
 <p>在最后我将给出这些问题的答案。</p>
 <h4 id="2-2-5-多通道图的卷积运算"><a href="#2-2-5-多通道图的卷积运算" class="headerlink" title="2.2.5 多通道图的卷积运算"></a>2.2.5 多通道图的卷积运算</h4><p>这里先介绍单通道图和多通道图的概念<br>（一）：单通道图<br>俗称灰度图，每个像素点只能有有一个值表示颜色，它的像素值在0到255之间，0是黑色，255是白色，中间值是一些不同等级的灰色。（也有3通道的灰度图，3通道灰度图只有一个通道有值，其他两个通道的值都是零）。<br>（二）:三通道图<br>每个像素点都有3个值表示 ，所以就是3通道。也有4通道的图。例如RGB图片即为三通道图片，RGB色彩模式是工业界的一种颜色标准，是通过对红(R)、绿(G)、蓝(B)三个颜色通道的变化以及它们相互之间的叠加来得到各式各样的颜色的，RGB即是代表红、绿、蓝三个通道的颜色，这个标准几乎包括了人类视力所能感知的所有颜色，是目前运用最广的颜色系统之一。总之，每一个点由三个值表示。</p>
-<p>之前的卷积运算的例子都是以有高、长方向的2维形状的单通道图为对象的。<br>但是， 图像是3维数据，除了高、长方向之外，还需要处理通道方向。这里，我们按照与之前相同的顺序，看一下对加上了通道方向的3维数据进行卷积运算的例子。这里以3通道的数据为例， 展示了卷积运算的结果。和2维数据时相比，可以发现纵深方向（通道方向）上特征图增加了。通道方向上有多个特征图时，会按通道进行输入数据和滤波器的卷积运算，并将结果相加，从而得到输出。<br><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.10.17.png" alt="截屏2020-04-1019.10.17"><br>需要注意的是，在3维数据的卷积运算中，输入数据和滤波器的通道数要设为相同的值。从上图可知，每个卷积核输出一张特征图，而多个卷积核输出的特征图汇集在一起，传递给下一层，这就是CNN的处理流。<br>最后再看看一看卷积运算中的处理流是什么亚子。<br><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.10.38.png" alt="截屏2020-04-1019.10.38"></p>
+<p>之前的卷积运算的例子都是以有高、长方向的2维形状的单通道图为对象的。<br>但是， 图像是3维数据，除了高、长方向之外，还需要处理通道方向。这里，我们按照与之前相同的顺序，看一下对加上了通道方向的3维数据进行卷积运算的例子。这里以3通道的数据为例， 展示了卷积运算的结果。和2维数据时相比，可以发现纵深方向（通道方向）上特征图增加了。通道方向上有多个特征图时，会按通道进行输入数据和滤波器的卷积运算，并将结果相加，从而得到输出。</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.15.48.png" alt="截屏2020-04-1020.15.48"></p>
+<p>需要注意的是，在3维数据的卷积运算中，输入数据和滤波器的通道数要设为相同的值。从上图可知，每个卷积核输出一张特征图，而多个卷积核输出的特征图汇集在一起，传递给下一层，这就是CNN的处理流。<br>最后再看看一看卷积运算中的处理流是什么亚子。</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.15.58.png" alt="截屏2020-04-1020.15.58"></p>
 <h2 id="三、-池化"><a href="#三、-池化" class="headerlink" title="三、 池化"></a>三、 池化</h2><p>讲了这么久的卷积，终于来到了池化（pooling）层<br>池化是缩小高、长方向上的空间的运算。比如，如图所示，进行将 2×2的区域集约成1个元素的处理，缩小空间大小。一般来说，池化的窗口大小会 和步幅设定成相同的值。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.10.58.png" alt="截屏2020-04-1019.10.58"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.16.15.png" alt="截屏2020-04-1020.16.15"></p>
 <blockquote>
 <p>除了MaxPooling之外，还有AveragePooling等。相对于MaxPooling是从目标区域中取出最大值，AveragePooling则是计算目标区域的平均值。 在图像识别领域，主要使用MaxPooling。</p>
 </blockquote>
@@ -571,16 +577,18 @@
 <p>这也意味着MaxPooling对微小的位置变化具有健壮性，输入数据发生微小偏差时，池化仍会返回相同的结果,池化会吸收输入数据的偏差（根据数据的不同，结果有可能不一致）。</p>
 <p>不过并不是所有情况MaxPooling的效果都很好，有时候有些周边信息也会对某个特定特征的识别产生一定效果，那么这个时候舍弃这部分“不重要”的信息，就不划算了。所以还要具体情况具体分析，如果加了Max Pooling后效果反而变差了，不如把卷积后不加MaxPooling的结果与卷积后加了MaxPooling的结果输出对比一下，看看MaxPooling是否对卷积核提取特征起了反效果。</p>
 <h4 id="3-1-Flatten层-amp-Fully-Connected-Layer"><a href="#3-1-Flatten层-amp-Fully-Connected-Layer" class="headerlink" title="3.1 Flatten层 &amp; Fully Connected Layer"></a>3.1 Flatten层 &amp; Fully Connected Layer</h4><p>　　到这一步，其实我们的一个完整的“卷积部分”就算完成了，如果想要叠加层数，一般也是叠加“Conv-MaxPooing”,通过不断的设计卷积核的尺寸，数量，提取更多的特征，最后识别不同类别的物体。做完MaxPooling后，我们就会把这些数据“拍平”，丢到Flatten层，然后把Flatten层的output放到full connected Layer里，采用softmax对其进行分类。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.11.31.png" alt="截屏2020-04-1019.11.31"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.16.26.png" alt="截屏2020-04-1020.16.26"></p>
 <h2 id="四、-CNN的可视化"><a href="#四、-CNN的可视化" class="headerlink" title="四、 CNN的可视化"></a>四、 CNN的可视化</h2><p>学习前的滤波器是随机进行初始化的，所以在黑白的浓淡上没有规律可循，但学习后的滤波器变成了有规律的图像。我们发现，通过学习，滤波器被更新成了有规律的滤波器，比如从白到黑渐变的滤波器、含有块状区域（称为blob）的滤波器等。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.11.56.png" alt="截屏2020-04-1019.11.56"></p>
-<p>如果要问右边的有规律的滤波器在“观察”什么，答案就是它在观察边缘（颜色变化的分界线）和斑块（局部的块状区域）等。比如，左半部分为白色、右半部分为黑色的滤波器的情况下，如图所示，会对垂直方向上的边缘有响应。<br><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.12.22.png" alt="截屏2020-04-1019.12.22"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.16.36.png" alt="截屏2020-04-1020.16.36"></p>
+<p>如果要问右边的有规律的滤波器在“观察”什么，答案就是它在观察边缘（颜色变化的分界线）和斑块（局部的块状区域）等。比如，左半部分为白色、右半部分为黑色的滤波器的情况下，如图所示，会对垂直方向上的边缘有响应。<br><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.16.46.png" alt="截屏2020-04-1020.16.46"></p>
 <h2 id="五、问题小结"><a href="#五、问题小结" class="headerlink" title="五、问题小结"></a>五、问题小结</h2><p>最后是上面给大家留下的问题<br>1.卷积核的尺寸必须为正方形吗？可以为长方形吗？如果是长方形应该怎么计算？</p>
 <p>2.卷积核的个数如何确定？每一层的卷积核的个数都是相同的吗？ </p>
 <p>3.步长的向右和向下移动的幅度必须是一样的吗？</p>
 <p>下面的想法，可以作为参考：</p>
 <p>1.卷积核的尺寸不一定非得为正方形。长方形也可以，只不过通常情况下为正方形。如果要设置为长方形，那么首先得保证这层的输出形状是整数，不能是小数（一些框架会对小数进行四舍五入处理，一些会引起报错）。如果你的图像是边长为 28 的正方形。那么卷积层的输出就满足 [ (28 - kernel_size)/ stride ] + 1 ，这个数值得是整数才行，否则没有物理意义。池化层同理。FC 层的输出形状总是满足整数，其唯一的要求就是整个训练过程中 FC 层的输入得是定长的。如果你的图像不是正方形。那么在制作数据时，可以缩放到统一大小（非正方形），再使用非正方形的卷积核来使得卷积层的输出依然是整数。总之，撇开网络结果设定的好坏不谈，其本质上就是在做算术应用题：如何使得各层的输出是整数。 </p>
-<p>2.由经验确定。通常情况下，靠近输入的卷积层，譬如第一层卷积层，会找出一些共性的特征，如手写数字识别中第一层我们设定卷积核个数为5个，一般是找出诸如”横线”、“竖线”、“斜线”等共性特征，我们称之为basic feature，经过池化后，在第二层卷积层，设定卷积核个数为20个，可以找出一些相对复杂的特征，如“横折”、“左半圆”、“右半圆”等特征，越往后，卷积核设定的数目越多，越能体现的特征就越细致，就越容易分类出来。比如你想分类出“0”的数字，你看到<img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.12.55.png" alt="截屏2020-04-1019.12.55"><br>这个特征，能推测是什么数字呢？只有越往后，检测识别的特征越多，试过才能慢慢能识别出<img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.13.22.png" alt="截屏2020-04-1019.13.22"><br>这几个特征，那么我就能够确定这个数字是“0”。 </p>
+<p>2.由经验确定。通常情况下，靠近输入的卷积层，譬如第一层卷积层，会找出一些共性的特征，如手写数字识别中第一层我们设定卷积核个数为5个，一般是找出诸如”横线”、“竖线”、“斜线”等共性特征，我们称之为basic feature，经过池化后，在第二层卷积层，设定卷积核个数为20个，可以找出一些相对复杂的特征，如“横折”、“左半圆”、“右半圆”等特征，越往后，卷积核设定的数目越多，越能体现的特征就越细致，就越容易分类出来。比如你想分类出“0”的数字，你看到<img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.16.53.png" alt="截屏2020-04-1020.16.53"><br>这个特征，能推测是什么数字呢？只有越往后，检测识别的特征越多，试过才能慢慢能识别出</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.17.05.png" alt="截屏2020-04-1020.17.05"></p>
+<p>这几个特征，那么我就能够确定这个数字是“0”。 </p>
 <p>　　3.有stride_w和stride_h，表示左右步长和上下步长。如果用stride，则表示stride_h=stride_w=stride。</p>
 
       
@@ -788,6 +796,20 @@
 
           
           
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://septieme7.github.io" title="https://septieme7.github.io" rel="noopener" target="_blank">大傻子七神</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
 
           
             
@@ -808,7 +830,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、基础结构"><span class="nav-text">一、基础结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、卷积层"><span class="nav-text">二、卷积层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-卷积层的优势"><span class="nav-text">2.1 卷积层的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-卷积运算（图像处理中的滤波器运算）"><span class="nav-text">2.2 卷积运算（图像处理中的滤波器运算）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-卷积运算基本过程"><span class="nav-text">2.2.1 卷积运算基本过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-填充"><span class="nav-text">2.2.2 填充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-步幅"><span class="nav-text">2.2.3 步幅</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-填充，步幅和输出结果的关系"><span class="nav-text">2.2.4 填充，步幅和输出结果的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#null"><span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-5-多通道图的卷积运算"><span class="nav-text">2.2.5 多通道图的卷积运算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、-池化"><span class="nav-text">三、 池化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-Flatten层-amp-Fully-Connected-Layer"><span class="nav-text">3.1 Flatten层 &amp; Fully Connected Layer</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#四、-CNN的可视化"><span class="nav-text">四、 CNN的可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、问题小结"><span class="nav-text">五、问题小结</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、基础结构"><span class="nav-text">一、基础结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、卷积层"><span class="nav-text">二、卷积层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-卷积层的优势"><span class="nav-text">2.1 卷积层的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-卷积运算（图像处理中的滤波器运算）"><span class="nav-text">2.2 卷积运算（图像处理中的滤波器运算）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-卷积运算基本过程"><span class="nav-text">2.2.1 卷积运算基本过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-填充"><span class="nav-text">2.2.2 填充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-步幅"><span class="nav-text">2.2.3 步幅</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-填充，步幅和输出结果的关系"><span class="nav-text">2.2.4 填充，步幅和输出结果的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-5-多通道图的卷积运算"><span class="nav-text">2.2.5 多通道图的卷积运算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、-池化"><span class="nav-text">三、 池化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-Flatten层-amp-Fully-Connected-Layer"><span class="nav-text">3.1 Flatten层 &amp; Fully Connected Layer</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#四、-CNN的可视化"><span class="nav-text">四、 CNN的可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、问题小结"><span class="nav-text">五、问题小结</span></a></li></div>
             
 
           </div>
@@ -896,12 +918,6 @@
 
 
 
-
-  
-    
-    
-  
-  <script color="0,0,255" ' opacity="0.85" zindex="-1" count="99" src="/desirelife6.github.io/lib/canvas-nest/canvas-nest-nomobile.min.js"></script>
 
 
 

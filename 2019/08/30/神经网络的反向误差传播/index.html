@@ -119,40 +119,40 @@
 
 
 
-  <meta name="description" content="一、一般的全连接神经网络结构1.1 “层”的概念每个“层”在神经网络中被实现为一个类，作为神经网络中的功能单位，类中定义了此层接受的输入，运算和输出。比如，负责激活函数的层就是Sigmoid层，ReLU层等等，负责矩阵相乘的就是上次提到的Affine层。以Affine层和ReLU层为例 123456789101112131415161718AffineX = np.random.rand(2)">
+  <meta name="description" content="本文介绍了神经网络的误差反向传播，作为学习笔记用">
 <meta name="keywords" content="神经网络,机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="神经网络的反向误差传播">
 <meta property="og:url" content="https://github.com/Desirelife6/child/2019/08/30/神经网络的反向误差传播/index.html">
 <meta property="og:site_name" content="Desirelife&#39;s blog">
-<meta property="og:description" content="一、一般的全连接神经网络结构1.1 “层”的概念每个“层”在神经网络中被实现为一个类，作为神经网络中的功能单位，类中定义了此层接受的输入，运算和输出。比如，负责激活函数的层就是Sigmoid层，ReLU层等等，负责矩阵相乘的就是上次提到的Affine层。以Affine层和ReLU层为例 123456789101112131415161718AffineX = np.random.rand(2)">
+<meta property="og:description" content="本文介绍了神经网络的误差反向传播，作为学习笔记用">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.25.27.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.26.01.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.26.21.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.26.44.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.27.15.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.27.45.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.28.08.png">
-<meta property="og:image" content="https://github.com/Users/yangchen/Desktop/Blog/public/images/%E6%88%AA%E5%B1%8F2020-04-1019.28.32.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.35.47.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.36.24.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.36.53.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.37.24.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.38.29.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.38.47.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.39.22.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.41.47.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.42.06.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.42.25.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.43.07.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.45.35.png">
-<meta property="og:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.45.55.png">
-<meta property="og:updated_time" content="2020-04-10T11:46:34.456Z">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.34.07.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.34.22.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.34.31.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.34.41.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.34.52.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.01.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.13.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.22.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.31.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.41.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.50.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.36.00.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.36.11.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.43.46.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.36.33.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.36.45.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.36.56.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.37.09.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.37.18.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.37.25.png">
+<meta property="og:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.37.34.png">
+<meta property="og:updated_time" content="2020-04-11T02:37:29.136Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="神经网络的反向误差传播">
-<meta name="twitter:description" content="一、一般的全连接神经网络结构1.1 “层”的概念每个“层”在神经网络中被实现为一个类，作为神经网络中的功能单位，类中定义了此层接受的输入，运算和输出。比如，负责激活函数的层就是Sigmoid层，ReLU层等等，负责矩阵相乘的就是上次提到的Affine层。以Affine层和ReLU层为例 123456789101112131415161718AffineX = np.random.rand(2)">
-<meta name="twitter:image" content="https://github.com/images/%E6%88%AA%E5%B1%8F2020-04-1019.25.27.png">
+<meta name="twitter:description" content="本文介绍了神经网络的误差反向传播，作为学习笔记用">
+<meta name="twitter:image" content="https://github.com/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.34.07.png">
 
 
 
@@ -478,7 +478,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-10 19:46:34" itemprop="dateModified" datetime="2020-04-10T19:46:34+08:00">2020-04-10</time>
+                <time title="修改时间：2020-04-11 10:37:29" itemprop="dateModified" datetime="2020-04-11T10:37:29+08:00">2020-04-11</time>
               
             
           </span>
@@ -525,6 +525,8 @@
           
 
           
+            <div class="post-description">本文介绍了神经网络的误差反向传播，作为学习笔记用</div>
+          
 
         </div>
       </header>
@@ -542,7 +544,7 @@
         <h2 id="一、一般的全连接神经网络结构"><a href="#一、一般的全连接神经网络结构" class="headerlink" title="一、一般的全连接神经网络结构"></a>一、一般的全连接神经网络结构</h2><h3 id="1-1-“层”的概念"><a href="#1-1-“层”的概念" class="headerlink" title="1.1 “层”的概念"></a>1.1 “层”的概念</h3><p>每个“层”在神经网络中被实现为一个类，作为神经网络中的功能单位，类中定义了此层接受的输入，运算和输出。比如，负责激活函数的层就是Sigmoid层，ReLU层等等，负责矩阵相乘的就是上次提到的Affine层。<br>以Affine层和ReLU层为例</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Affine</span><br><span class="line">X = np.random.rand(<span class="number">2</span>)  <span class="comment"># 输入</span></span><br><span class="line">W = np.random.rand(<span class="number">2</span>，<span class="number">3</span>)  <span class="comment"># 权重参数</span></span><br><span class="line">B = np.random.rand(<span class="number">3</span>)  <span class="comment"># 偏置</span></span><br><span class="line">Y = np.dot(X, W) + B    <span class="comment"># 得到相乘结果</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Relu</span>:</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span>        </span><br><span class="line">        self.mask = <span class="literal">None</span>        <span class="comment"># mask这个变量在反向传播时很重要，稍后会提到</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span>        <span class="comment"># 正向传播</span></span><br><span class="line">        self.mask = (x &lt;= <span class="number">0</span>)        </span><br><span class="line">        out = x.copy()        </span><br><span class="line">        out[self.mask] = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">backward</span><span class="params">(self, dout)</span>:</span>        <span class="comment"># 反向传播</span></span><br><span class="line">        dout[self.mask] = <span class="number">0</span>        </span><br><span class="line">        dx = dout</span><br><span class="line">        <span class="keyword">return</span> dx</span><br></pre></td></tr></table></figure>
 
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.25.27.png" alt="截屏2020-04-1019.25.27"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.34.07.png" alt="截屏2020-04-1020.34.07"></p>
 <p>这里Affine中的 X、W、B 分别是形状为 (2,)、(2,3)、(3,) 的多维数组。这样一来，神经元的加权和可以用 Y = np.dot(X, W) + B 计算出来。然后，Y 经过激活函数转换后，传递给下一层。这就是神经网络正向传播的流程。调用激活层中的 forward 正向传播。</p>
 <h2 id="二、正向传播时的梯度下降法"><a href="#二、正向传播时的梯度下降法" class="headerlink" title="二、正向传播时的梯度下降法"></a>二、正向传播时的梯度下降法</h2><p>在正向传播中，采用数值微分法求梯度<br>在每一层，采用数值微分法分别求损失函数对于该层的各个权重参数的偏导数，组合成梯度，然后令各参数向梯度下降的方向更新。代码其实很好懂，简直就像大白话，这里举一个简单的例子。<br> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 求梯度</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">numerical_gradient</span><span class="params">(f, x)</span>:</span>    <span class="comment"># x为传入的各参数的数组/多维数组</span></span><br><span class="line">    h = <span class="number">1e-4</span> <span class="comment"># 0.0001    </span></span><br><span class="line">    grad = np.zeros_like(x) <span class="comment"># 生成和x形状相同的数组</span></span><br><span class="line">    <span class="keyword">for</span> idx <span class="keyword">in</span> range(x.size):        </span><br><span class="line">        tmp_val = x[idx]    </span><br><span class="line">         <span class="comment"># f(x+h)的计算           </span></span><br><span class="line">        x[idx] = tmp_val + h        </span><br><span class="line">        fxh1 = f(x)</span><br><span class="line">        <span class="comment"># f(x-h)的计算        </span></span><br><span class="line">        x[idx] = tmp_val - h        </span><br><span class="line">        fxh2 = f(x)</span><br><span class="line">        <span class="comment"># 组合为梯度</span></span><br><span class="line">        grad[idx] = (fxh1 - fxh2) / (<span class="number">2</span>*h)        </span><br><span class="line">        x[idx] = tmp_val <span class="comment"># 还原值</span></span><br><span class="line">    <span class="keyword">return</span> grad</span><br><span class="line"></span><br><span class="line"><span class="comment"># 梯度下降法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradient_descent</span><span class="params">(f, init_x, lr=<span class="number">0.01</span>, step_num=<span class="number">100</span>)</span>:</span>  </span><br><span class="line">    x = init_x</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(step_num):       </span><br><span class="line">        grad = numerical_gradient(f, x)        </span><br><span class="line">        x -= lr * grad</span><br><span class="line">    <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure></p>
 <p>梯度下降法的函数的参数中，f 为我们选用的损失函数，x为各层传入的参数数组，lr为学习率，也就是参数每次更新的程度，step_num为更新的轮数。</p>
@@ -552,17 +554,20 @@
 <li>构建计算图。 </li>
 <li>在计算图上，从左向右进行计算。（正向传播）</li>
 </ol>
-<p>现在我们尝试用计算图求解简单的问题<br>问题1： 太郎在超市买了2个100元一个的苹果，消费税是10%，请计算支付金额。<br><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.26.01.png" alt="截屏2020-04-1019.26.01"></p>
-<p>问题2：太郎在超市买了2个苹果、3个橘子。其中，苹果每个100元， 橘子每个150元。消费税是10%，请计算支付金额。<br><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.26.21.png" alt="截屏2020-04-1019.26.21"></p>
-<h4 id="3-1-2-局部计算"><a href="#3-1-2-局部计算" class="headerlink" title="3.1.2 局部计算"></a>3.1.2 局部计算</h4><p>计算图的特征是可以通过传递“局部计算”获得最终结果。“局部”这个 词的意思是“与自己相关的某个小范围”。局部计算是指，无论全局发生了什么， 都能只根据与自己相关的信息输出接下来的结果。<br>我们用一个具体的例子来说明局部计算。比如，在超市买了2个苹果和其他很多东西。此时，可以画出如图3-3所示的计算图。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.26.44.png" alt="截屏2020-04-1019.26.44"></p>
+<p>现在我们尝试用计算图求解简单的问题<br>问题1： 太郎在超市买了2个100元一个的苹果，消费税是10%，请计算支付金额。</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.34.22.png" alt="截屏2020-04-1020.34.22"></p>
+<p>问题2：太郎在超市买了2个苹果、3个橘子。其中，苹果每个100元， 橘子每个150元。消费税是10%，请计算支付金额。</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.34.31.png" alt="截屏2020-04-1020.34.31"></p>
+<p>3.1.2 局部计算</p>
+<p>计算图的特征是可以通过传递“局部计算”获得最终结果。“局部”这个 词的意思是“与自己相关的某个小范围”。局部计算是指，无论全局发生了什么， 都能只根据与自己相关的信息输出接下来的结果。<br>我们用一个具体的例子来说明局部计算。比如，在超市买了2个苹果和其他很多东西。此时，可以画出如图3-3所示的计算图。</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.34.41.png" alt="截屏2020-04-1020.34.41"></p>
 <p>如图3-3所示，假设（经过复杂的计算）购买的其他很多东西总共花费4000元。这里的重点是，各个节点处的计算都是局部计算。这意味着，例如苹果和其他很多东西的求和运算（4000 + 200 → 4200）并不关心4000这个数字是如何计算而来的，只要把两个数字相加就可以了。换言之，各个节点处只需进行与自己有关的计算（在这个例子中是对输入的两个数字进行加法运算），不用考虑全局。<br>综上，计算图可以集中精力于局部计算。无论全局的计算有多么复杂， 各个步骤所要做的就是对象节点的局部计算。虽然局部计算非常简单，但是通过传递它的计算结果，可以获得全局的复杂计算的结果。</p>
 <h4 id="3-1-3-为何使用计算图"><a href="#3-1-3-为何使用计算图" class="headerlink" title="3.1.3 为何使用计算图"></a>3.1.3 为何使用计算图</h4><p>实际上，使用计算图最大的原因是，可以通过反向传播高效计算导数。 在介绍计算图的反向传播时，我们再来思考一下问题1。问题1中，假设我们想知道苹果价格的上涨会在多大程度上影响最终的支付金额，即求“支付金额关于苹果的价格的导数”。设苹果的价格为 x，支付金额为 L，则相当于求 $ \frac{dL}{dX} $。<br>先来看一下结果，如图3-4所示，可以通过计算图的反向传播求导数（关于如何进行反向传播，接下来马上会介绍）。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.27.15.png" alt="截屏2020-04-1019.27.15"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.34.52.png" alt="截屏2020-04-1020.34.52"></p>
 <p>如图3-4所示，反向传播使用与正方向相反的箭头（粗线）表示。反向传播传递“局部导数”，将导数的值写在箭头的下方。在这个例子中，反向传播从右向左传递导数的值（1→1.1→2.2）。从这个结果中可知，“支付金额关于苹果的价格的导数”的值是2.2</p>
 <p>“支付金额关于消费税的导数”“支付金额关于苹果的个数的导数”等也都可以用同样的方式算出来。并且, 计算中途求得的导数的结果（中间传递的导数）可以被共享，从而可以高效地计算多个导数。综上，计算图的优点是，可以通过正向传播和反向传 播高效地计算各个变量的导数值。</p>
 <h3 id="3-2-链式法则"><a href="#3-2-链式法则" class="headerlink" title="3.2  链式法则"></a>3.2  链式法则</h3><h4 id="3-2-1-计算图的反向传播"><a href="#3-2-1-计算图的反向传播" class="headerlink" title="3.2.1 计算图的反向传播"></a>3.2.1 计算图的反向传播</h4><p>话不多说，让我们先来看一个使用计算图的反向传播的例子。假设存在 y = f(x)的计算，这个计算的反向传播如图3-4所示。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.27.45.png" alt="截屏2020-04-1019.27.45"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.01.png" alt="截屏2020-04-1020.35.01"></p>
 <p>如图所示，反向传播的计算顺序是，将信号E乘以节点的局部导数 （ $\frac{dy}{dx}$），然后将结果传递给下一个节点。这里所说的局部导数是指正向传播中$y = f(x) $的导数，也就是y关于x的导数（ $\frac{dy}{dx}$）。把这个局部导数乘以上游传过来的值（本例中为E）， 然后传递给前面的节点。</p>
 <h4 id="3-2-2-链式法则"><a href="#3-2-2-链式法则" class="headerlink" title="3.2.2 链式法则"></a>3.2.2 链式法则</h4><p>链式法则是关于复合函数的导数的性质，定义如下。</p>
 <blockquote>
@@ -570,24 +575,24 @@
 </blockquote>
 <p>形如 $\frac{dZ}{dX}  =  \frac{dZ}{dt}  \frac{dt}{dZ} $， 即为求导的链式法则。高数内容，不再赘述。</p>
 <h4 id="3-2-3-链式法则与计算图"><a href="#3-2-3-链式法则与计算图" class="headerlink" title="3.2.3 链式法则与计算图"></a>3.2.3 链式法则与计算图</h4><p>现在我们尝试将上式的链式法则的计算用计算图表示出来。如果用 “**2”节点表示平方运算的话，则计算图如图3-5所示。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.28.08.png" alt="截屏2020-04-1019.28.08"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.13.png" alt="截屏2020-04-1020.35.13"></p>
 <p>因为$\frac{dz}{dt} = 2t $; $\frac{dt}{dx} = 1 $ ; 所以$\frac{dz}{dx}  = 2(x+y) $</p>
 <h3 id="3-3-反向传播"><a href="#3-3-反向传播" class="headerlink" title="3.3 反向传播"></a>3.3 反向传播</h3><h4 id="3-3-1-加法的反向传播"><a href="#3-3-1-加法的反向传播" class="headerlink" title="3.3.1 加法的反向传播"></a>3.3.1 加法的反向传播</h4><p>加法反向传播将从上游传过来的导数（本例中是 ）乘以 1，然 后传向下游。也就是说，因为加法节点的反向传播只乘以1，所以输入的值 会原封不动地流向下一个节点。</p>
-<p><img src="/Users/yangchen/Desktop/Blog/public/images/%E6%88%AA%E5%B1%8F2020-04-1019.28.32.png" alt="截屏2020-04-1019.28.32"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.22.png" alt="截屏2020-04-1020.35.22"></p>
 <h4 id="3-3-2-乘法的反向传播"><a href="#3-3-2-乘法的反向传播" class="headerlink" title="3.3.2 乘法的反向传播"></a>3.3.2 乘法的反向传播</h4><p>乘法的反向传播会将上游的值乘以正向传播时的输入信号的“翻转值” 后传递给下游。翻转值表示一种翻转关系，如图5-12所示，正向传播时信号 是x的话，反向传播时则是y；正向传播时信号是y的话，反向传播时则是x。 </p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.35.47.png" alt="截屏2020-04-1019.35.47"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.31.png" alt="截屏2020-04-1020.35.31"></p>
 <h4 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h4><p>结合加法和乘法，以苹果为例，尝试填入这些空格</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.36.24.png" alt="截屏2020-04-1019.36.24"></p>
-<h3 id="3-4-激活函数层的反向传播实现"><a href="#3-4-激活函数层的反向传播实现" class="headerlink" title="3.4 激活函数层的反向传播实现"></a>3.4 激活函数层的反向传播实现</h3><h4 id="3-4-1-ReLU-层"><a href="#3-4-1-ReLU-层" class="headerlink" title="3.4.1 ReLU 层"></a>3.4.1 ReLU 层</h4><p>激活函数ReLU的导数为<img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.36.53.png" alt="截屏2020-04-1019.36.53"><br>如果正向传播时的输入x大于0，则反向传播会将上游的 值原封不动地传给下游。反过来，如果正向传播时的x小于等于0，则反向传播中传给下游的信号将停在此处<br>所以在开始时提到的ReLU层的mask变量，是用来存储正向传播输入是否为0的变量，它是由True/False构成的NumPy数组，它会把正向传播时的输入x的元素中小于等于0的地方保存为True，其他地方（大于0的元素）保存为False。在反向传播中尤其重要。<br>计算图表示即为</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.37.24.png" alt="截屏2020-04-1019.37.24"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.41.png" alt="截屏2020-04-1020.35.41"></p>
+<h3 id="3-4-激活函数层的反向传播实现"><a href="#3-4-激活函数层的反向传播实现" class="headerlink" title="3.4 激活函数层的反向传播实现"></a>3.4 激活函数层的反向传播实现</h3><h4 id="3-4-1-ReLU-层"><a href="#3-4-1-ReLU-层" class="headerlink" title="3.4.1 ReLU 层"></a>3.4.1 ReLU 层</h4><p>激活函数ReLU的导数为<img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.35.50.png" alt="截屏2020-04-1020.35.50"><br>如果正向传播时的输入x大于0，则反向传播会将上游的 值原封不动地传给下游。反过来，如果正向传播时的x小于等于0，则反向传播中传给下游的信号将停在此处<br>所以在开始时提到的ReLU层的mask变量，是用来存储正向传播输入是否为0的变量，它是由True/False构成的NumPy数组，它会把正向传播时的输入x的元素中小于等于0的地方保存为True，其他地方（大于0的元素）保存为False。在反向传播中尤其重要。<br>计算图表示即为</p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.36.00.png" alt="截屏2020-04-1020.36.00"></p>
 <h4 id="3-4-2-Sigmoid层"><a href="#3-4-2-Sigmoid层" class="headerlink" title="3.4.2 Sigmoid层"></a>3.4.2 Sigmoid层</h4><p>步骤1<br>“/”节点表示 ，它的导数可以解析性地表示为下式。<br>$ \frac{dy}{dx} = - \frac{1}{x^2} = - y^2 $<br>反向传播时，会将上游的值乘以$−y^2$（正向传播的输出的平方乘以−1后的值）后，再传给下游。</p>
 <p>步骤2<br> “+”节点将上游的值原封不动地传给下游。</p>
 <p>步骤3<br>“exp”节点表示y = exp(x)，它的导数由下式表示。<br>$ \frac{dy}{dx} = exp(x) $<br>计算图中，上游的值乘以正向传播时的输出（这个例子中是exp(−x)）后， 再传给下游。</p>
 <p>步骤4<br>“×”节点将正向传播时的值翻转后做乘法运算。因此，这里要乘以−1。</p>
 <p>最终结果为</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.38.29.png" alt="截屏2020-04-1019.38.29"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.36.11.png" alt="截屏2020-04-1020.36.11"></p>
 <p>这里要注意， 这个值只根据正向传播时的输入x和输出y就可以算出来,所以sigmoid的计算图可以简化为sigmoid节点，简洁版的计算图可以省略反向传播中的计算过程，因此计算效率更高。此外， 通过对节点进行集约化，可以不用在意Sigmoid层中琐碎的细节，而只需要专注它的输入和输出，这一点也很重要。 </p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.38.47.png" alt="截屏2020-04-1019.38.47"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.43.46.png" alt="截屏2020-04-1020.43.46"></p>
 <h3 id="3-5-Affine-Softmax层的实现"><a href="#3-5-Affine-Softmax层的实现" class="headerlink" title="3.5 Affine/Softmax层的实现"></a>3.5 Affine/Softmax层的实现</h3><h4 id="3-5-1-Affine层"><a href="#3-5-1-Affine层" class="headerlink" title="3.5.1 Affine层"></a>3.5.1 Affine层</h4><p>神经网络的正向传播中，为了计算加权信号的总和，使用了矩阵的乘积运算</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Affine</span><br><span class="line">X = np.random.rand(<span class="number">2</span>)  <span class="comment"># 输入</span></span><br><span class="line">W = np.random.rand(<span class="number">2</span>，<span class="number">3</span>)  <span class="comment"># 权重参数</span></span><br><span class="line">B = np.random.rand(<span class="number">3</span>)  <span class="comment"># 偏置</span></span><br><span class="line">Y = np.dot(X, W) + B    <span class="comment"># 得到相乘结果</span></span><br></pre></td></tr></table></figure>
 
@@ -595,26 +600,26 @@
 <p>神经网络的正向传播中进行的矩阵的乘积运算在几何学领域被称为“仿 射变换” A。因此，这里将进行仿射变换的处理实现为“Affine层”。</p>
 </blockquote>
 <p>现在将它用计算图表示出来，要注意X、W、B是矩阵（多维数组）。 之前我们见到的计算图中各个节点间流动的是标量，而这个例子中各个节点间传播的是矩阵。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.39.22.png" alt="截屏2020-04-1019.39.22"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.36.33.png" alt="截屏2020-04-1020.36.33"></p>
 <p>现在我们来考虑图 3-14 的计算图的反向传播。以矩阵为对象的反向传播，通过数学推导可得到下式<br>$$ \frac{dL}{dX} = \frac{dL}{dY} * W^T $$<br>$$ \frac{dL}{dW} = X^T * \frac{dL}{dY} $$<br>表示为计算图即为：</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.41.47.png" alt="截屏2020-04-1019.41.47"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.36.45.png" alt="截屏2020-04-1020.36.45"></p>
 <p>其中值得注意的是,X与$\frac{dL}{dX}$形状相同，W与$\frac{dL}{dW}$形状相同,从下式也容易看出</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.42.06.png" alt="截屏2020-04-1019.42.06"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.36.56.png" alt="截屏2020-04-1020.36.56"></p>
 <h4 id="3-5-2-批版本的Affine层"><a href="#3-5-2-批版本的Affine层" class="headerlink" title="3.5.2 批版本的Affine层"></a>3.5.2 批版本的Affine层</h4><p>前面介绍的Affi  ne层的输入X是以单个数据为对象的。现在我们考虑N 个数据一起进行正向传播的情况，也就是批版本的Affine层。<br>先来看计算图</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.42.25.png" alt="截屏2020-04-1019.42.25"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.37.09.png" alt="截屏2020-04-1020.37.09"></p>
 <p>与刚刚不同的是，现在输入X的形状是(N,2)。之后就和前面一样，在计算图上进行单纯的矩阵计算。<br><strong>加上偏置时，需要特别注意。正向传播时，偏置被加到X·W的各个数据上。比如，N = 2（数据为2个）时，偏置会被分别加到这2个数据（各自 的计算结果）上。因此， 反向传播时，各个数据的反向传播的值需要汇总为偏置的元素。</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>dY = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]]) </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dY </span><br><span class="line">array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],       </span><br><span class="line">       [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]]) </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dB = np.sum(dY, axis=<span class="number">0</span>) </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dB </span><br><span class="line">array([<span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>])</span><br></pre></td></tr></table></figure>
 
 <p>这个例子中，假定数据有2个（N = 2）。偏置的反向传播会对这2个数据的导数按元素进行求和。因此，这里使用了np.sum()对第0轴（以数据为单位的轴，axis=0）方向上的元素进行求和。 </p>
 <h4 id="3-5-3-Softmax-with-Loss-层"><a href="#3-5-3-Softmax-with-Loss-层" class="headerlink" title="3.5.3 Softmax-with-Loss 层"></a>3.5.3 Softmax-with-Loss 层</h4><p>上次我们提到过，softmax函数会将输入值正规化之后再输出。比如手写数字识别时，Softmax层的输出如下所示。</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.43.07.png" alt="截屏2020-04-1019.43.07"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.37.18.png" alt="截屏2020-04-1020.37.18"></p>
 <blockquote>
 <p>神经网络中进行的处理有推理（inference）和学习两个阶段。神经网络的推理通常不使用Softmax层。比如，用上图的网络进行推理时， 会将最后一个Affine层的输出作为识别结果。神经网络中未被正规化的输出结果（Softmax层前面的Affine层的输出）有时被称为“得分”。也就是说，当神经网络的推理只需要给出一个答案的情况下，因为此时只对得分最大值感兴趣，所以不需要Softmax层。 不过，神经网络的学习阶段则需要Softmax层。</p>
 </blockquote>
 <p>来看softmax的计算图，导出过程比较复杂，这里只给出最终结果</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.45.35.png" alt="截屏2020-04-1019.45.35"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.37.25.png" alt="截屏2020-04-1020.37.25"></p>
 <p>不感兴趣的话可以看简化版本</p>
-<p><img src="/images/%E6%88%AA%E5%B1%8F2020-04-1019.45.55.png" alt="截屏2020-04-1019.45.55"></p>
+<p><img src="/desirelife6.github.io/.com//%E6%88%AA%E5%B1%8F2020-04-1020.37.34.png" alt="截屏2020-04-1020.37.34"></p>
 <p>Softmax层的反向传播得到了 $（y_1 −t_1,y_2 −t_2,y_3 −t_3）$这样“漂亮”的结果。由于$（y_1,y_2,y_3）$是 Softmax层的输出，$（ t_1,t_2,t_3）$是监督数据，所以$（y_1 −t_1,y_2 −t_2,y_3 −t_3）$是 Softmax层的输出和教师标签的差分。神经网络的反向传播会把这个差分表示的误差传递给前面的层，这是神经网络学习中的重要性质。<br>神经网络学习的目的就是通过调整权重参数，使神经网络的输出（Softmax 的输出）接近教师标签。因此，必须将神经网络的输出与教师标签的误差高效地传递给前面的层。刚刚的$（y_1 −t_1,y_2 −t_2,y_3 −t_3）$正是 Softmax层的输出与教师标签的差，直截了当地表示了当前神经网络的输出与教师标签的误差。 </p>
 <blockquote>
 <p>使用交叉熵误差作为softmax函数的损失函数后，反向传播得到 $（y_1 −t_1,y_2 −t_2,y_3 −t_3）$这样 “漂亮”的结果。实际上，这样“漂亮” 的结果并不是偶然的，而是为了得到这样的结果，特意设计了交叉熵误差函数。回归问题中输出层使用“恒等函数”，损失函数使用 “平方和误差”，也是出于同样的理由。也就是说，使用“平 方和误差”作为“恒等函数”的损失函数，反向传播才能得到$（y_1 −t_1,y_2 −t_2,y_3 −t_3）$这样“漂亮”的结果。</p>
@@ -827,6 +832,20 @@
 
           
           
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://septieme7.github.io" title="https://septieme7.github.io" rel="noopener" target="_blank">大傻子七神</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
 
           
             
@@ -847,7 +866,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、一般的全连接神经网络结构"><span class="nav-text">一、一般的全连接神经网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-“层”的概念"><span class="nav-text">1.1 “层”的概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、正向传播时的梯度下降法"><span class="nav-text">二、正向传播时的梯度下降法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、误差反向传播法"><span class="nav-text">三、误差反向传播法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-计算图"><span class="nav-text">3.1 计算图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-利用计算图求解"><span class="nav-text">3.1.1 利用计算图求解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-2-局部计算"><span class="nav-text">3.1.2 局部计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-3-为何使用计算图"><span class="nav-text">3.1.3 为何使用计算图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-链式法则"><span class="nav-text">3.2  链式法则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-计算图的反向传播"><span class="nav-text">3.2.1 计算图的反向传播</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-链式法则"><span class="nav-text">3.2.2 链式法则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-链式法则与计算图"><span class="nav-text">3.2.3 链式法则与计算图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-反向传播"><span class="nav-text">3.3 反向传播</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-加法的反向传播"><span class="nav-text">3.3.1 加法的反向传播</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-乘法的反向传播"><span class="nav-text">3.3.2 乘法的反向传播</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#练习"><span class="nav-text">练习</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-激活函数层的反向传播实现"><span class="nav-text">3.4 激活函数层的反向传播实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-1-ReLU-层"><span class="nav-text">3.4.1 ReLU 层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-2-Sigmoid层"><span class="nav-text">3.4.2 Sigmoid层</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-Affine-Softmax层的实现"><span class="nav-text">3.5 Affine/Softmax层的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-1-Affine层"><span class="nav-text">3.5.1 Affine层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-2-批版本的Affine层"><span class="nav-text">3.5.2 批版本的Affine层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-3-Softmax-with-Loss-层"><span class="nav-text">3.5.3 Softmax-with-Loss 层</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、神经网络学习全貌"><span class="nav-text">四、神经网络学习全貌</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、一般的全连接神经网络结构"><span class="nav-text">一、一般的全连接神经网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-“层”的概念"><span class="nav-text">1.1 “层”的概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、正向传播时的梯度下降法"><span class="nav-text">二、正向传播时的梯度下降法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、误差反向传播法"><span class="nav-text">三、误差反向传播法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-计算图"><span class="nav-text">3.1 计算图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-利用计算图求解"><span class="nav-text">3.1.1 利用计算图求解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-3-为何使用计算图"><span class="nav-text">3.1.3 为何使用计算图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-链式法则"><span class="nav-text">3.2  链式法则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1-计算图的反向传播"><span class="nav-text">3.2.1 计算图的反向传播</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-链式法则"><span class="nav-text">3.2.2 链式法则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-链式法则与计算图"><span class="nav-text">3.2.3 链式法则与计算图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-反向传播"><span class="nav-text">3.3 反向传播</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-加法的反向传播"><span class="nav-text">3.3.1 加法的反向传播</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-乘法的反向传播"><span class="nav-text">3.3.2 乘法的反向传播</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#练习"><span class="nav-text">练习</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-激活函数层的反向传播实现"><span class="nav-text">3.4 激活函数层的反向传播实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-1-ReLU-层"><span class="nav-text">3.4.1 ReLU 层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-2-Sigmoid层"><span class="nav-text">3.4.2 Sigmoid层</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-Affine-Softmax层的实现"><span class="nav-text">3.5 Affine/Softmax层的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-1-Affine层"><span class="nav-text">3.5.1 Affine层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-2-批版本的Affine层"><span class="nav-text">3.5.2 批版本的Affine层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-3-Softmax-with-Loss-层"><span class="nav-text">3.5.3 Softmax-with-Loss 层</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、神经网络学习全貌"><span class="nav-text">四、神经网络学习全貌</span></a></li></ol></div>
             
 
           </div>
@@ -935,12 +954,6 @@
 
 
 
-
-  
-    
-    
-  
-  <script color="0,0,255" ' opacity="0.85" zindex="-1" count="99" src="/desirelife6.github.io/lib/canvas-nest/canvas-nest-nomobile.min.js"></script>
 
 
 
